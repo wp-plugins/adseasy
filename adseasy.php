@@ -7,6 +7,7 @@ Version: 1.0
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
+Text Domain: adseasy 
 */
 
 /*  Copyright 2011  Waldemar Stoffel  (email : w-stoffel@gmx.net)
