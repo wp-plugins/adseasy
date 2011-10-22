@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than hose you get from wordpress and your adservers, his is the most easy sollution. Place the code you get to the widget, style the widget and define, on what pages it shows up. 
-Version: 1.0
+Version: 2.0
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -33,15 +33,13 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die("Sorr
 
 /* attach JavaScript file for textarea reszing */
 
-$ae_path = WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/';
-
 function ae_js_sheet() {
-   global $ae_path;
-   wp_enqueue_script('ta-resize-script', $ae_path.'ta-expander.js', false, false, true);
+	
+	wp_enqueue_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '2.0', true);
+
 }
 
 add_action('admin_print_scripts-widgets.php', 'ae_js_sheet');
-add_action('admin_footer-widgets.php', 'ae_write_script');
 
 //Additional links on the plugin page
 
@@ -96,33 +94,7 @@ class Ads_Easy_Widget extends WP_Widget {
 	$not_found=esc_attr($instance['not_found']);
 	$logged_in=esc_attr($instance['logged_in']);
 	
-	if (empty($style)) {
-		
-		$style_height=25;
-	
-	}
-	
-	else {
-		
-		$ae_elements=str_replace(array("\r\n", "\n", "\r"), '|', $style);
-		$style_height=count(explode('|', $ae_elements))*21;
-		
-	}
-	
-	if (empty($adblock)) {
-		
-		$adblock_height=25;
-	
-	}
-	
-	else {
-		
-		$ae_elements=str_replace(array("\r\n", "\n", "\r"), '|', $adblock);
-		$adblock_height=count(explode('|', $ae_elements))*21;
-		
-	}	
-	
- ?>
+?>
  
 <p>
  <label for="<?php echo $this->get_field_id('name'); ?>">
@@ -139,6 +111,7 @@ class Ads_Easy_Widget extends WP_Widget {
 <p>
   <?php _e('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', 'adseasy'); ?>
 </p>
+<fieldset>
 <p>
   <label for="<?php echo $this->get_field_id('homepage'); ?>">
     <input id="<?php echo $this->get_field_id('homepage'); ?>" name="<?php echo $this->get_field_name('homepage'); ?>" <?php if(!empty($homepage)) {echo "checked=\"checked\""; } ?> type="checkbox" />
@@ -211,8 +184,15 @@ class Ads_Easy_Widget extends WP_Widget {
     &nbsp;
     <?php _e('&#34;Not Found&#34;', 'adseasy'); ?>
   </label>
-  <br />
 </p>
+<p>
+  <label for="checkall">
+    <input id="checkall" name="checkall" type="checkbox" />
+    &nbsp;
+    <?php _e('Check all', 'adseasy'); ?>
+  </label>
+</p>    
+</fieldset>
 <p>
   <label for="<?php echo $this->get_field_id('logged_in'); ?>">
     <input id="<?php echo $this->get_field_id('logged_in'); ?>" name="<?php echo $this->get_field_name('logged_in'); ?>" <?php if(!empty($logged_in)) {echo "checked=\"checked\""; } ?> type="checkbox" />
@@ -223,15 +203,21 @@ class Ads_Easy_Widget extends WP_Widget {
 <p>
  <label for="<?php echo $this->get_field_id('adblock'); ?>">
  <?php _e('Just paste the code of your ad here.', 'adseasy'); ?>
- <textarea class="widefat expand<?php echo $adblock_height; ?>-1000" id="<?php echo $this->get_field_id('adblock'); ?>" name="<?php echo $this->get_field_name('adblock'); ?>"><?php echo $adblock; ?></textarea>
+ <textarea class="widefat" id="<?php echo $this->get_field_id('adblock'); ?>" name="<?php echo $this->get_field_name('adblock'); ?>"><?php echo $adblock; ?></textarea>
  </label>
 </p>
 <p>
  <label for="<?php echo $this->get_field_id('style'); ?>">
  <?php _e('Here you can finally style the widget. Simply type something like<br /><strong>border-left: 1px dashed;<br />border-color: #000000;</strong><br />to get just a dashed black line on the left. If you leave that section empty, your theme will style the widget.', 'adseasy'); ?>
- <textarea class="widefat expand<?php echo $style_height; ?>-1000" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
+ <textarea class="widefat" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
  </label>
 </p>
+<script type="text/javascript"><!--
+jQuery(document).ready(function() {
+	jQuery("#<?php echo $this->get_field_id('adblock'); ?>").autoResize();
+	jQuery("#<?php echo $this->get_field_id('style'); ?>").autoResize();
+});
+--></script>
 <?php 
 	}
 

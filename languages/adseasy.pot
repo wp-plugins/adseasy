@@ -88,6 +88,10 @@ msgstr ""
 msgid "&#34;Not Found&#34;"
 msgstr ""
 
+#: adseasy.php:216
+msgid "Check all"
+msgstr ""
+
 #: adseasy.php:219
 msgid "Don&#39;t show the ad to logged in users."
 msgstr ""

@@ -3,8 +3,8 @@ Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA
 Tags: ads, sidebar, widget, multi widget, advertising, banner, banners
 Requires at least: 2.7
-Tested up to: 3.2
-Stable tag: 1.0
+Tested up to: 3.3
+Stable tag: 2.0
 
 Ads Easy is the most simple way to integrate some banners into your blog. It works with basically everything.
 
@@ -12,7 +12,7 @@ Ads Easy is the most simple way to integrate some banners into your blog. It wor
 
 If you need to place some Advertisements on your blog, but you don't need other stats, than those from your adprovider and you don't want to have ads in your posts, this is the solution. You can define the widget style yourself or you can leave it to your theme. Show your ads on every type of page or just on the frontpage. Keep your registered users adfree when they are logged in if you want.
 
-Ads Easy was tested up to WP 3.2. It should work with versions down to 2.7 but was never tested on those.
+Ads Easy was tested up to WP 3.3. It should work with versions down to 2.7 but was never tested on those.
 
 == Installation ==
 
@@ -63,12 +63,20 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 2.0 =
+
+* Resizable Textareas work now. Check all function added.
+
 = 1.0 =
 
-* Stable version with Dutch and German language files
+* Stable version with Dutch and German language files.
 
 == Upgrade Notice ==
 
 = 1.0 =
 
 Stable and clean version
+
+= 2.0 =
+
+* Small bugfix and more functionality.
