@@ -119,8 +119,8 @@ msgstr ""
 #. Description of the plugin/theme
 msgid ""
 "If you don't want to have Ads in your posts and you don't need other stats "
-"than hose you get from wordpress and your adservers, his is the most easy "
-"sollution. Place the code you get to the widget, style the widget and "
+"than those you get from wordpress and your adservers, this is the most easy "
+"solution. Place the code you get to the widget, style the widget and "
 "define, on what pages it shows up."
 msgstr ""
 

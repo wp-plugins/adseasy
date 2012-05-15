@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2011-10-17 11:15+0200\n"
+"PO-Revision-Date: 2012-05-10 21:23+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: wasistlos.waldemarstoffel.com <popel@atelier-fuenf.de>\n"
 "X-Poedit-Language: German\n"
@@ -112,7 +112,7 @@ msgid "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 msgstr "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 
 #. Description of the plugin/theme
-msgid "If you don't want to have Ads in your posts and you don't need other stats than hose you get from wordpress and your adservers, his is the most easy sollution. Place the code you get to the widget, style the widget and define, on what pages it shows up."
+msgid "If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up."
 msgstr "Wenn du keine Anzeigen in deinen Artikeln haben willst und keine anderen Statistiken, außer denen des Adservers brauchst, ist Ads Easy die einfachste Lösung. Kopiere den Anzeigencode in das Widget, style es und definiere, auf welchen Seiten es gezeigt wird."
 
 #. Author of the plugin/theme
