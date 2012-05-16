@@ -3,14 +3,14 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up. 
-Version: 2.1
+Version: 2.2
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
 Text Domain: adseasy 
 */
 
-/*  Copyright 2011  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
+/*  Copyright 2011 - 2012 Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ Text Domain: adseasy
 
 /* Stop direct call */
 
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die(__('Sorry, you don&#39;t have direct access to this page.')); }
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die(__('Sorry, you don&#39;t have direct access to this page.'));
 
 /* attach JavaScript file for textarea resizing */
 
@@ -117,7 +117,7 @@ function ae_header() {
 	
 	$ae_options = get_option('ae_options');
 	
-	echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy -->";
+	echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy -->\r\n";
 	
 	if ($ae_options['ae_header'] == '1') do_action('google_start_tag');
 	
@@ -201,8 +201,10 @@ function ae_footer() {
 function ae_start_tag() {
 	
 	global $ba_tag;
+	
+	$eol = "\r\n";
 
-  	echo '<!-- google_ad_section_start -->';
+  	echo '<!-- google_ad_section_start -->'.$eol;
 	
 	$ba_tag = 'start';
 	
@@ -211,8 +213,10 @@ function ae_start_tag() {
 function ae_ignore_tag() {
 	
 	global $ba_tag;
+	
+	$eol = "\r\n";
 
-  	echo '<!-- google_ad_section_start(weight=ignore) -->';
+  	echo '<!-- google_ad_section_start(weight=ignore) -->'.$eol;
 	
 	$ba_tag = 'ignore';
 	
@@ -221,8 +225,10 @@ function ae_ignore_tag() {
 function ae_end_tag() {
 	
 	global $ba_tag;
+	
+	$eol = "\r\n";
 
-  	echo '<!-- google_ad_section_end -->';
+  	echo $eol.'<!-- google_ad_section_end -->'.$eol;
 	
 	$ba_tag = 'end';
 	
@@ -234,7 +240,10 @@ function ae_end_tag() {
  *
  */
 function ae_wrap_ignore($atts, $content = null){
-	return '<!-- google_ad_section_end --><!-- google_ad_section_start(weight=ignore) -->'.do_shortcode($content).'<!-- google_ad_section_end --><!-- google_ad_section_start -->';
+	
+	$eol = "\r\n";
+	
+	return $eol.'<!-- google_ad_section_end -->'.$eol.'<!-- google_ad_section_start(weight=ignore) -->'.$eol.do_shortcode($content).$eol.'<!-- google_ad_section_end -->'.$eol.'<!-- google_ad_section_start -->'.$eol;
 }
  
 /**
@@ -517,14 +526,14 @@ function ads_easy_init() {
 	
 	add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', 'adseasy'), 'ae_display_use_google', 'ae_use_adsense');
 	
-	add_settings_field('use_google_tags', 'Tags:', 'ae_display_tags', 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', 'adeasy')));
+	add_settings_field('use_google_tags', 'Tags:', 'ae_display_tags', 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', 'adseasy')));
 	
 	add_settings_section('ads_easy_settings', __('What to wrap in the tags', 'adseasy'), 'ae_display_choices', 'ae_check_fields');
 	
-	add_settings_field('ae_header', 'Header:', 'ae_display_header', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the header', 'adeasy')));
-	add_settings_field('ae_loop', 'Loop:', 'ae_display_loop', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', 'adeasy')));
-	add_settings_field('ae_sidebar', 'Sidebar(s):', 'ae_display_sidebar', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', 'adeasy')));
-	add_settings_field('ae_footer', 'Footer:', 'ae_display_footer', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', 'adeasy')));
+	add_settings_field('ae_header', 'Header:', 'ae_display_header', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the header', 'adseasy')));
+	add_settings_field('ae_loop', 'Loop:', 'ae_display_loop', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', 'adseasy')));
+	add_settings_field('ae_sidebar', 'Sidebar(s):', 'ae_display_sidebar', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', 'adseasy')));
+	add_settings_field('ae_footer', 'Footer:', 'ae_display_footer', 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', 'adseasy')));
 
 }
 
