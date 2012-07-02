@@ -2,27 +2,31 @@
 
 /**
  *
- * add ads easy button to TinyMCE, code from
+ * Class A5 MCE Button
+ *
+ * @ A5 Plugin Framework
+ *
+ * Adds buttons to the Editor, code from
  *
  * NextGEN Gallery of Alex Rabe
  *
  */
-class add_ae_button {
+class A5_AddMceButton {
 	
-	var $pluginname = 'AdsEasy';
-	var $path = '';
-	var $internalVersion = 100;
+	public $pluginname = '', $path = '', $internalVersion = 100, $hook = '';
 	
 	/**
-	 * add_ae_button::add_ae_button()
+	 * A5_AddMceButton::A5_AddMceButton()
 	 * the constructor
 	 * 
 	 * @return void
 	 */
-	function add_ae_button()  {
+	function A5_AddMceButton($path, $pluginname, $hook)  {
 		
 		// Set path to editor_plugin.js
-		$this->path = plugins_url('/adseasy/tinymce/');		
+		$this->path = plugins_url('/'.$path.'/tinymce/');
+		$this->pluginname = $pluginname;
+		$this->hook = $hook;
 		
 		// Modify the version when tinyMCE plugins are changed.
 		add_filter('tiny_mce_version', array (&$this, 'change_tinymce_version') );
@@ -32,7 +36,7 @@ class add_ae_button {
 	}
 
 	/**
-	 * add_ae_button::addbuttons()
+	 * A5_AddMceButton::addbuttons()
 	 * 
 	 * @return void
 	 */
@@ -46,13 +50,13 @@ class add_ae_button {
 		if ( get_user_option('rich_editing') == 'true') {
 		 
 			// add the button for wp2.5 in a new way
-			add_filter("mce_external_plugins", array (&$this, 'add_tinymce_plugin' ), 5);
-			add_filter('mce_buttons', array (&$this, 'register_button' ), 5);
+			add_filter('mce_external_plugins', array (&$this, 'add_tinymce_plugin' ), 5);
+			add_filter($this->hook, array (&$this, 'register_button' ), 5);
 		}
 	}
 	
 	/**
-	 * add_ae_button::register_button()
+	 * A5_AddMceButton::register_button()
 	 * used to insert button in wordpress 2.5x editor
 	 * 
 	 * @return $buttons
@@ -65,7 +69,7 @@ class add_ae_button {
 	}
 	
 	/**
-	 * add_ae_button::add_tinymce_plugin()
+	 * A5_AddMceButton::add_tinymce_plugin()
 	 * Load the TinyMCE plugin : editor_plugin.js
 	 * 
 	 * @return $plugin_array
@@ -78,10 +82,10 @@ class add_ae_button {
 	}
 	
 	/**
-	 * add_ae_button::change_tinymce_version()
+	 * A5_AddMceButton::change_tinymce_version()
 	 * A different version will rebuild the cache
 	 * 
-	 * @return $versio
+	 * @return $version
 	 */
 	function change_tinymce_version($version) {
 			$version = $version + $this->internalVersion;
@@ -89,8 +93,5 @@ class add_ae_button {
 	}
 	
 }
-
-// Call it now
-$tinymce_button = new add_ae_button ();
 
 ?>
