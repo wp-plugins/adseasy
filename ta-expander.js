@@ -233,7 +233,7 @@ autoResize.cloneContainer ||
 // check all funcion
 jQuery(document).ready(function(){
 								
-	jQuery("#checkall").live('click', function () {
+	jQuery('[id$=checkall]').live('click', function () {
 		jQuery(this).parents("fieldset").find(":checkbox").attr("checked", this.checked);
 		
 	});
