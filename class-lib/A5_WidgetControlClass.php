@@ -10,11 +10,13 @@
  *
  */
 
-class A5_WidgetControlClass {
+class A5_WidgetControls {
+	
+	const version = '1.0';
 	
 	public $menu_item;
 	
-	function A5_WidgetControlClass($args){
+	function A5_WidgetControls($args){
 		
 		extract($args);
 		

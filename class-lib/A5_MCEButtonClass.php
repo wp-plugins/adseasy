@@ -13,6 +13,8 @@
  */
 class A5_AddMceButton {
 	
+	const version = '1.0';
+	
 	public $pluginname = '', $path = '', $internalVersion = 100, $hook = '';
 	
 	/**

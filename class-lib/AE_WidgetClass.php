@@ -57,12 +57,12 @@ function form($instance) {
 	$field[] = array ('type' => 'checkgroup', 'id_base' => $base_id, 'name_base' => $base_name, 'label' => __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', $language_file), 'options' => $options, 'checkall' => __('Check all', $language_file));
 	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'logged_in', 'label' => __('Don&#39;t show the ad to logged in users.', $language_file), 'value' => $logged_in, 'space' => 1);	
 	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'adblock', 'class' => 'widefat', 'label' => __('Just paste the code of your ad here.', $language_file), 'value' => $adblock, 'space' => 1);
-	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder-left: 1px dashed;%1$sborder-color: #000000;%3$s%1$sto get just a dashed black line on the left. If you leave that section empty, your theme will style the widget.', $language_file), '<br />', '<strong>', '</strong>'), 'value' => $style, 'space' => 1);
+	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', $language_file), '<br />', '<strong>', '</strong>'), 'value' => $style, 'space' => 1);
 	$field[] = array ('type' => 'resize', 'id_base' => $base_id, 'field_name' => array('adblock', 'style'));
 	
 	foreach ($field as $args) :
 	
-		$menu_item = new A5_WidgetControlClass($args);
+		$menu_item = new A5_WidgetControls($args);
  
  	endforeach;
 	

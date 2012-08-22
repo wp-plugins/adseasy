@@ -1,111 +1,171 @@
-# Copyright (C) 2010 Ads Easy
+# Copyright (C) 2012 Ads Easy
 # This file is distributed under the same license as the Ads Easy package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ads Easy 1.0\n"
+"Project-Id-Version: Ads Easy 2.3.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/adseasy\n"
-"POT-Creation-Date: 2011-03-12 10:34:45+00:00\n"
+"POT-Creation-Date: 2012-08-22 10:50:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: adseasy.php:53
+#: adseasy.php:119
 msgid "FAQ"
 msgstr ""
 
-#: adseasy.php:54
+#: adseasy.php:120
 msgid "Donate"
 msgstr ""
 
-#: adseasy.php:67
+#: adseasy.php:132
+msgid "Settings"
+msgstr ""
+
+#: adseasy.php:273
+msgid "Use the Google AdSense Tags"
+msgstr ""
+
+#: adseasy.php:275
+msgid "Check to use the Google AdSense Tags"
+msgstr ""
+
+#: adseasy.php:277
+msgid "What to wrap in the tags"
+msgstr ""
+
+#: adseasy.php:279
+msgid "Check to include the header"
+msgstr ""
+
+#: adseasy.php:280
+msgid "Check to include the loop"
+msgstr ""
+
+#: adseasy.php:281
+msgid "Check to include the sidebar(s)"
+msgstr ""
+
+#: adseasy.php:282
+msgid "Check to include the footer"
+msgstr ""
+
+#: adseasy.php:288
+msgid ""
+"To activate the use of the tags, check the box. The other boxes are there "
+"for the specific parts of the code."
+msgstr ""
+
+#: adseasy.php:294
+msgid ""
+"Unchecked means, that the ignore tag is placed instead of the start tag. E."
+"g. if you have ads from someone else than Google in the header, it might "
+"make sense to ignore it while if you have widgets in the footer, you "
+"definitely should include those."
+msgstr ""
+
+#: adseasy.php:295
+msgid ""
+"There will be a button in the editor to mark sections of your text, that you "
+"want to have ignored by Google Adsense."
+msgstr ""
+
+#: adseasy.php:373
+msgid "Do you use Google Adsense in the widget?"
+msgstr ""
+
+#: adseasy.php:385
+msgid "Save Changes"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:16
 msgid ""
 "You can show ads in your sidebars and other widgetareas with this widget. "
 "Define, on what kind of pages they will show up."
 msgstr ""
 
-#: adseasy.php:128
+#: class-lib/AE_WidgetClass.php:53
+msgid "Homepage"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Frontpage (e.g. a static page as homepage)"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "&#34;Page&#34; pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Category pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Single post pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Archive pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Tag pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Attachments"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Custom Taxonomy pages (only available, if having a plugin)"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Author pages"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "Search Results"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:53
+msgid "&#34;Not Found&#34;"
+msgstr ""
+
+#: class-lib/AE_WidgetClass.php:55
 msgid "Title (will be displayed in blog):"
 msgstr ""
 
-#: adseasy.php:134
+#: class-lib/AE_WidgetClass.php:56
 msgid "Adname (internal widgettitle):"
 msgstr ""
 
-#: adseasy.php:139
+#: class-lib/AE_WidgetClass.php:57
 msgid ""
 "Check, where you want to show the widget. By default, it is showing on the "
 "homepage and the category pages:"
 msgstr ""
 
-#: adseasy.php:145
-msgid "Homepage"
-msgstr ""
-
-#: adseasy.php:151
-msgid "Frontpage (e.g. a static page as homepage)"
-msgstr ""
-
-#: adseasy.php:157
-msgid "&#34;Page&#34; pages"
-msgstr ""
-
-#: adseasy.php:163
-msgid "Category pages"
-msgstr ""
-
-#: adseasy.php:169
-msgid "Single post pages"
-msgstr ""
-
-#: adseasy.php:175
-msgid "Archive pages"
-msgstr ""
-
-#: adseasy.php:181
-msgid "Tag pages"
-msgstr ""
-
-#: adseasy.php:187
-msgid "Attachments"
-msgstr ""
-
-#: adseasy.php:193
-msgid "Custom Taxonomy pages (only available, if having a plugin)"
-msgstr ""
-
-#: adseasy.php:199
-msgid "Author pages"
-msgstr ""
-
-#: adseasy.php:205
-msgid "Search Results"
-msgstr ""
-
-#: adseasy.php:211
-msgid "&#34;Not Found&#34;"
-msgstr ""
-
-#: adseasy.php:216
+#: class-lib/AE_WidgetClass.php:57
 msgid "Check all"
 msgstr ""
 
-#: adseasy.php:219
+#: class-lib/AE_WidgetClass.php:58
 msgid "Don&#39;t show the ad to logged in users."
 msgstr ""
 
-#: adseasy.php:224
+#: class-lib/AE_WidgetClass.php:59
 msgid "Just paste the code of your ad here."
 msgstr ""
 
-#: adseasy.php:230
+#: class-lib/AE_WidgetClass.php:60
 msgid ""
-"Here you can finally style the widget. Simply type something like<br /"
-"><strong>border-left: 1px dashed;<br />border-color: #000000;</strong><br /"
-">to get just a dashed black line on the left. If you leave that section "
-"empty, your theme will style the widget."
+"Here you can finally style the widget. Simply type something like%1$s"
+"%2$sborder-left: 1px dashed;%1$sborder-color: #000000;%3$s%1$sto get just a "
+"dashed black line on the left. If you leave that section empty, your theme "
+"will style the widget."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -120,8 +180,8 @@ msgstr ""
 msgid ""
 "If you don't want to have Ads in your posts and you don't need other stats "
 "than those you get from wordpress and your adservers, this is the most easy "
-"solution. Place the code you get to the widget, style the widget and "
-"define, on what pages it shows up."
+"solution. Place the code you get to the widget, style the widget and define, "
+"on what pages it shows up."
 msgstr ""
 
 #. Author of the plugin/theme
@@ -129,5 +189,5 @@ msgid "Waldemar Stoffel"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.waldemarstoffel.com"
+msgid "http://www.atelier-fuenf.de"
 msgstr ""

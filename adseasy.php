@@ -33,24 +33,29 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('Sorry,
 
 define( 'AE_PATH', plugin_dir_path(__FILE__) );
 
+if (!class_exists('A5_ControlField')) require_once AE_PATH.'class-lib/A5_ControlFieldClass.php';
 if (!class_exists('Ads_Easy_Widget')) require_once AE_PATH.'class-lib/AE_WidgetClass.php';
 if (!class_exists('A5_WidgetControlClass')) require_once AE_PATH.'class-lib/A5_WidgetControlClass.php';
 
 class AdsEasy {
 	
-	static $language_file = 'adseasy', $ba_tag;
+	const language_file = 'adseasy';
+	
+	static $ba_tag;
 	
 	function AdsEasy() {
 		
 		// import laguage files
 	
-		load_plugin_textdomain(self::$language_file, false , basename(dirname(__FILE__)).'/languages');
+		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
 		register_activation_hook(  __FILE__, array($this, 'ae_set_option') );
 		register_deactivation_hook(  __FILE__, array($this, 'ae_unset_option') );
-		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
+		
 		add_filter('plugin_row_meta', array($this, 'ae_register_links'),10,2);
 		add_filter( 'plugin_action_links', array($this, 'ae_plugin_action_links'), 10, 2 );
+		
+		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
 		add_action('admin_init', array($this, 'ads_easy_init'));
 		add_action('admin_menu', array($this, 'ae_admin_menu'));
 	
@@ -89,7 +94,7 @@ class AdsEasy {
 			add_shortcode( 'ae_ignore_tag', array($this, 'ae_wrap_ignore'));
 			
 			// get the tinymce plugin
-			if (!class_exists('A5_AddMceButton')) require_once AE_PATH.'tinymce/A5_MCEButtonClass.php';
+			if (!class_exists('A5_AddMceButton')) require_once AE_PATH.'class-lib/A5_MCEButtonClass.php';
 			
 			$tinymce_button = new A5_AddMceButton ('adseasy', 'AdsEasy', 'mce_buttons');
 			
@@ -116,8 +121,8 @@ class AdsEasy {
 		
 		if ($file == $base) :
 			
-			$links[] = '<a href="http://wordpress.org/extend/plugins/adseasy/faq/" target="_blank">'.__('FAQ', self::$language_file).'</a>';
-			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA" target="_blank">'.__('Donate', self::$language_file).'</a>';
+			$links[] = '<a href="http://wordpress.org/extend/plugins/adseasy/faq/" target="_blank">'.__('FAQ', self::language_file).'</a>';
+			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA" target="_blank">'.__('Donate', self::language_file).'</a>';
 		
 		endif;
 		
@@ -129,7 +134,7 @@ class AdsEasy {
 		
 		$base = plugin_basename(__FILE__);
 		
-		if ($file == $base) array_unshift($links, '<a href="'.admin_url( 'plugins.php?page=ads-easy-settings' ).'">'.__('Settings', self::$language_file).'</a>');
+		if ($file == $base) array_unshift($links, '<a href="'.admin_url( 'plugins.php?page=ads-easy-settings' ).'">'.__('Settings', self::language_file).'</a>');
 	
 		return $links;
 	
@@ -145,7 +150,7 @@ class AdsEasy {
 		
 		$ae_options = get_option('ae_options');
 		
-		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy -->\r\n";
+		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy')." -->\r\n";
 		
 		if ($ae_options['ae_header'] == '1') do_action('google_start_tag');
 		
@@ -270,69 +275,79 @@ class AdsEasy {
 		
 		register_setting( 'ae_options', 'ae_options', array($this, 'ae_validate') );
 		
-		add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', self::$language_file), array($this, 'ae_display_use_google'), 'ae_use_adsense');
+		add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', self::language_file), array($this, 'ae_display_use_google'), 'ae_use_adsense');
 		
-		add_settings_field('use_google_tags', 'Tags:', array($this, 'ae_display_tags'), 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', self::$language_file)));
+		add_settings_field('use_google_tags', 'Tags:', array($this, 'ae_display_tags'), 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', self::language_file)));
 		
-		add_settings_section('ads_easy_settings', __('What to wrap in the tags', self::$language_file), array($this, 'ae_display_choices'), 'ae_check_fields');
+		add_settings_section('ads_easy_settings', __('What to wrap in the tags', self::language_file), array($this, 'ae_display_choices'), 'ae_check_fields');
 		
-		add_settings_field('ae_header', 'Header:', array($this, 'ae_display_header'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the header', self::$language_file)));
-		add_settings_field('ae_loop', 'Loop:', array($this, 'ae_display_loop'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', self::$language_file)));
-		add_settings_field('ae_sidebar', 'Sidebar(s):', array($this, 'ae_display_sidebar'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', self::$language_file)));
-		add_settings_field('ae_footer', 'Footer:', array($this, 'ae_display_footer'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', self::$language_file)));
+		add_settings_field('ae_header', 'Header:', array($this, 'ae_display_header'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the header', self::language_file)));
+		add_settings_field('ae_loop', 'Loop:', array($this, 'ae_display_loop'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', self::language_file)));
+		add_settings_field('ae_sidebar', 'Sidebar(s):', array($this, 'ae_display_sidebar'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', self::language_file)));
+		add_settings_field('ae_footer', 'Footer:', array($this, 'ae_display_footer'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', self::language_file)));
 	
 	}
 	
 	function ae_display_use_google() {
 		
-		echo '<p>'.__('To activate the use of the tags, check the box. The other boxes are there for the specific parts of the code.', self::$language_file).'</p>';
+		echo '<p>'.__('To activate the use of the tags, check the box. The other boxes are there for the specific parts of the code.', self::language_file).'</p>';
 	
 	}
 	
 	function ae_display_choices() {
 	
-		echo '<p>'.__('Unchecked means, that the ignore tag is placed instead of the start tag. E.g. if you have ads from someone else than Google in the header, it might make sense to ignore it while if you have widgets in the footer, you definitely should include those.', self::$language_file).'</p>';
-		echo '<p>'.__('There will be a button in the editor to mark sections of your text, that you want to have ignored by Google Adsense.', self::$language_file).'</p>';
+		echo '<p>'.__('Unchecked means, that the ignore tag is placed instead of the start tag. E.g. if you have ads from someone else than Google in the header, it might make sense to ignore it while if you have widgets in the footer, you definitely should include those.', self::language_file).'</p>';
+		echo '<p>'.__('There will be a button in the editor to mark sections of your text, that you want to have ignored by Google Adsense.', self::language_file).'</p>';
 	
 	}
 	
-	function ae_display_tags($lable) {
+	function ae_display_tags($labels) {
 		
-		$ae_options = get_option('ae_options');
+		$options = get_option('ae_options');
 		
-		echo "<input id='use_google_tags' name='ae_options[use_google_tags]' type='checkbox' value='1' ". checked( 1, $ae_options['use_google_tags'], false ) ." /><label for='use_google_tags'>" . $lable[0] . "</label>";
+		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'use_google_tags', 'label' => $labels[0], 'value' => $options['use_google_tags'], 'space' => 1);
 		
-	}
-	
-	function ae_display_header($lable) {
-		
-		$ae_options = get_option('ae_options');
-		
-		echo "<input id='ae_header' name='ae_options[ae_header]' type='checkbox' value='1' ". checked( 1, $ae_options['ae_header'], false ) ." /><label for='ae_header'>" . $lable[0] . "</label>";
+		$field = new A5_ControlField($args);
 		
 	}
 	
-	function ae_display_loop($lable) {
+	function ae_display_header($labels) {
 		
-		$ae_options = get_option('ae_options');
+		$options = get_option('ae_options');
 		
-		echo "<input id='ae_loop' name='ae_options[ae_loop]' type='checkbox' value='1' ". checked( 1, $ae_options['ae_loop'], false ) ." /><label for='ae_loop'>" . $lable[0] . "</label>";
+		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_header', 'label' => $labels[0], 'value' => $options['ae_header'], 'space' => 1);
+		
+		$field = new A5_ControlField($args);
+		
+	}
+	
+	function ae_display_loop($labels) {
+		
+		$options = get_option('ae_options');
+		
+		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_loop', 'label' => $labels[0], 'value' => $options['ae_loop'], 'space' => 1);
+		
+		$field = new A5_ControlField($args);
 	
 	}
 	
-	function ae_display_sidebar($lable) {
+	function ae_display_sidebar($labels) {
 		
-		$ae_options = get_option('ae_options');
+		$options = get_option('ae_options');
 		
-		echo "<input id='ae_sidebar' name='ae_options[ae_sidebar]' type='checkbox' value='1' ". checked( 1, $ae_options['ae_sidebar'], false ) ." /><label for='ae_sidebar'>" . $lable[0] . "</label>";
+		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_sidebar', 'label' => $labels[0], 'value' => $options['ae_sidebar'], 'space' => 1);
+		
+		$field = new A5_ControlField($args);
 	
 	}
 	
-	function ae_display_footer($lable) {
+	function ae_display_footer($labels) {
 		
-		$ae_options = get_option('ae_options');
+		$options = get_option('ae_options');
 		
-		echo "<input id='ae_footer' name='ae_options[ae_footer]' type='checkbox' value='1' ". checked( 1, $ae_options['ae_footer'], false ) ." /><label for='ae_footer'>" . $lable[0] . "</label>";
+		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_footer', 'label' => $labels[0], 'value' => $options['ae_footer'], 'space' => 1);
+		
+		$field = new A5_ControlField($args);
 		
 	}
 	
@@ -356,7 +371,7 @@ class AdsEasy {
 	
 	function ae_admin_menu() {
 		
-		add_plugins_page('Ads Easy', 'Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'ae_options_page'));
+		add_plugins_page('Ads Easy', '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'ae_options_page'));
 		
 	}
 	
@@ -366,11 +381,12 @@ class AdsEasy {
 		
 		?>
 		
-		<div>
+		<div class="wrap">
+        <a href="<?php _e('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy'); ?>"><div id="a5-logo" class="icon32" style="background: url('<?php echo plugins_url('adseasy/img/a5-icon-34.png');?>');"></div></a>
 		<h2>Ads Easy</h2>
 		<?php settings_errors(); ?>
 		
-		<?php _e('Do you use Google Adsense in the widget?', self::$language_file); ?>
+		<?php _e('Do you use Google Adsense in the widget?', self::language_file); ?>
 		
 		<form action="options.php" method="post">
 		
@@ -380,9 +396,8 @@ class AdsEasy {
 		do_settings_sections('ae_use_adsense');
 		do_settings_sections('ae_check_fields');
 		
+		submit_button();
 		?>
-		
-		<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form></div>
 		
 		<?php
