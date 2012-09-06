@@ -25,7 +25,7 @@ function Ads_Easy_Widget() {
 	
 function form($instance) {
 	
-	$defaults = array( 'homepage' => 1, 'category' => 1 );
+	$defaults = array( 'homepage' => 1, 'category' => 1, 'logged_in' => 1, 'search_engine' => 1, 'normal' => 1 );
 	
 	$instance = wp_parse_args( (array) $instance, $defaults );
 	
@@ -46,25 +46,23 @@ function form($instance) {
 	$search=esc_attr($instance['search']);
 	$not_found=esc_attr($instance['not_found']);
 	$logged_in=esc_attr($instance['logged_in']);
+	$search_engine=esc_attr($instance['search_engine']);
+	$normal=esc_attr($instance['normal']);
 	
 	$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
 	$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
 	
 	$options = array (array('homepage', $homepage, __('Homepage', self::language_file)), array('frontpage', $frontpage, __('Frontpage (e.g. a static page as homepage)', self::language_file)), array('page', $page, __('&#34;Page&#34; pages', self::language_file)), array('category', $category, __('Category pages', self::language_file)), array('single', $single, __('Single post pages', self::language_file)), array('date', $date, __('Archive pages', self::language_file)), array('tag', $tag, __('Tag pages', self::language_file)), array('attachment', $attachment, __('Attachments', self::language_file)), array('taxonomy', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)), array('author', $author, __('Author pages', self::language_file)), array('search', $search, __('Search Results', self::language_file)), array('not_found', $not_found, __('&#34;Not Found&#34;', self::language_file)));
-
-	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'name', 'label' => __('Title (will be displayed in blog):', self::language_file), 'value' => $name, 'class' => 'widefat', 'space' => 1);
-	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'title', 'label' => __('Adname (internal widgettitle):', self::language_file), 'value' => $title, 'class' => 'widefat', 'space' => 1);
-	$field[] = array ('type' => 'checkgroup', 'id_base' => $base_id, 'name_base' => $base_name, 'label' => __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), 'options' => $options, 'checkall' => __('Check all', self::language_file));
-	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'logged_in', 'label' => __('Don&#39;t show the ad to logged in users.', self::language_file), 'value' => $logged_in, 'space' => 1);	
-	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'adblock', 'class' => 'widefat', 'label' => __('Just paste the code of your ad here.', self::language_file), 'value' => $adblock, 'space' => 1);
-	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), 'value' => $style, 'space' => 1);
-	$field[] = array ('type' => 'resize', 'id_base' => $base_id, 'field_name' => array('adblock', 'style'));
 	
-	foreach ($field as $args) :
-	
-		$menu_item = new A5_WidgetControls($args);
- 
- 	endforeach;
+	a5_text_field($base_id.'name', $base_name.'[name]', $name, __('Title (will be displayed in blog):', self::language_file), false, false, 'widefat', true, true);
+	a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Title (will be displayed in blog):', self::language_file), false, false, 'widefat', true, true);
+	a5_checkgroup($base_id, $base_name, $options, __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), __('Check all', self::language_file), false, false, true, true);
+	a5_checkbox($base_id.'logged_in', $base_name.'[logged_in]', $logged_in, __('Show to logged in users.', self::language_file), false, false, true, true);
+	a5_checkbox($base_id.'search_engine', $base_name.'[search_engine]', $search_engine, __('Show to visitors, who come from search engines.', self::language_file), false, false, true, true);
+	a5_checkbox($base_id.'normal', $base_name.'[normal]', $normal, __('Show to other visitors.', self::language_file), false, false, true, true);
+	a5_textarea($base_id.'adblock', $base_name.'[adblock]', $adblock, __('Just paste the code of your ad here.', self::language_file), false, 'widefat', false, false, true, true);
+	a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), false, 'widefat', false, false, true, true);
+	a5_resize_textarea(array($base_id.'adblock', $base_id.'style'), true);
 	
 }
 
@@ -89,6 +87,8 @@ function update($new_instance, $old_instance) {
 	 $instance['search'] = strip_tags($new_instance['search']);
 	 $instance['not_found'] = strip_tags($new_instance['not_found']);
 	 $instance['logged_in'] = strip_tags($new_instance['logged_in']);
+	 $instance['search_engine'] = strip_tags($new_instance['search_engine']);
+	 $instance['normal'] = strip_tags($new_instance['normal']);
 	 
 	 return $instance;
 }
@@ -97,7 +97,17 @@ function widget($args, $instance) {
 	
 // user logged in and do we show ads to them?
 
-if (!$instance['logged_in'] || ($instance['logged_in'] && !is_user_logged_in())) :
+if ($instance['logged_in'] && is_user_logged_in()) $show_user = true;
+
+// user comes from search engine and do we show ads to them?
+
+if ($instance['search_engine'] && $_COOKIE['ae_visit_from_se']) $show_engine = true;
+
+// other users! do we? or don't? or what?
+
+if ($instance['normal'] && (!is_user_logged_in() && !$_COOKIE['ae_visit_from_se'])) $show_normal = true;
+
+if (isset($show_normal) || isset($show_user) || isset($show_engine)) :
 	
 	// get the type of page, we're actually on
 	
