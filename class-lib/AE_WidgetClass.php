@@ -11,9 +11,11 @@
  */
 class Ads_Easy_Widget extends WP_Widget {
 	
+	const language_file = 'adseasy';
+	
 function Ads_Easy_Widget() {
 		
-	$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', 'adseasy') );
+	$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', self::language_file) );
 	$control_opts = array( 'width' => 400 );
 	
 	parent::WP_Widget(false, $name = 'Ads Easy', $widget_opts, $control_opts);
@@ -45,19 +47,17 @@ function form($instance) {
 	$not_found=esc_attr($instance['not_found']);
 	$logged_in=esc_attr($instance['logged_in']);
 	
-	$language_file = 'adseasy';
-	
 	$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
 	$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
 	
-	$options = array (array('homepage', $homepage, __('Homepage', $language_file)), array('frontpage', $frontpage, __('Frontpage (e.g. a static page as homepage)', $language_file)), array('page', $page, __('&#34;Page&#34; pages', $language_file)), array('category', $category, __('Category pages', $language_file)), array('single', $single, __('Single post pages', $language_file)), array('date', $date, __('Archive pages', $language_file)), array('tag', $tag, __('Tag pages', $language_file)), array('attachment', $attachment, __('Attachments', $language_file)), array('taxonomy', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', $language_file)), array('author', $author, __('Author pages', $language_file)), array('search', $search, __('Search Results', $language_file)), array('not_found', $not_found, __('&#34;Not Found&#34;', $language_file)));
+	$options = array (array('homepage', $homepage, __('Homepage', self::language_file)), array('frontpage', $frontpage, __('Frontpage (e.g. a static page as homepage)', self::language_file)), array('page', $page, __('&#34;Page&#34; pages', self::language_file)), array('category', $category, __('Category pages', self::language_file)), array('single', $single, __('Single post pages', self::language_file)), array('date', $date, __('Archive pages', self::language_file)), array('tag', $tag, __('Tag pages', self::language_file)), array('attachment', $attachment, __('Attachments', self::language_file)), array('taxonomy', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)), array('author', $author, __('Author pages', self::language_file)), array('search', $search, __('Search Results', self::language_file)), array('not_found', $not_found, __('&#34;Not Found&#34;', self::language_file)));
 
-	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'name', 'label' => __('Title (will be displayed in blog):', $language_file), 'value' => $name, 'class' => 'widefat', 'space' => 1);
-	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'title', 'label' => __('Adname (internal widgettitle):', $language_file), 'value' => $title, 'class' => 'widefat', 'space' => 1);
-	$field[] = array ('type' => 'checkgroup', 'id_base' => $base_id, 'name_base' => $base_name, 'label' => __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', $language_file), 'options' => $options, 'checkall' => __('Check all', $language_file));
-	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'logged_in', 'label' => __('Don&#39;t show the ad to logged in users.', $language_file), 'value' => $logged_in, 'space' => 1);	
-	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'adblock', 'class' => 'widefat', 'label' => __('Just paste the code of your ad here.', $language_file), 'value' => $adblock, 'space' => 1);
-	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', $language_file), '<br />', '<strong>', '</strong>'), 'value' => $style, 'space' => 1);
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'name', 'label' => __('Title (will be displayed in blog):', self::language_file), 'value' => $name, 'class' => 'widefat', 'space' => 1);
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'title', 'label' => __('Adname (internal widgettitle):', self::language_file), 'value' => $title, 'class' => 'widefat', 'space' => 1);
+	$field[] = array ('type' => 'checkgroup', 'id_base' => $base_id, 'name_base' => $base_name, 'label' => __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), 'options' => $options, 'checkall' => __('Check all', self::language_file));
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'logged_in', 'label' => __('Don&#39;t show the ad to logged in users.', self::language_file), 'value' => $logged_in, 'space' => 1);	
+	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'adblock', 'class' => 'widefat', 'label' => __('Just paste the code of your ad here.', self::language_file), 'value' => $adblock, 'space' => 1);
+	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), 'value' => $style, 'space' => 1);
 	$field[] = array ('type' => 'resize', 'id_base' => $base_id, 'field_name' => array('adblock', 'style'));
 	
 	foreach ($field as $args) :

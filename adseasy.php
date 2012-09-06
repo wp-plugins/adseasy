@@ -33,31 +33,34 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('Sorry,
 
 define( 'AE_PATH', plugin_dir_path(__FILE__) );
 
-if (!class_exists('A5_ControlField')) require_once AE_PATH.'class-lib/A5_ControlFieldClass.php';
 if (!class_exists('Ads_Easy_Widget')) require_once AE_PATH.'class-lib/AE_WidgetClass.php';
-if (!class_exists('A5_WidgetControlClass')) require_once AE_PATH.'class-lib/A5_WidgetControlClass.php';
+if (!class_exists('A5_OptionPage')) require_once AE_PATH.'class-lib/A5_OptionPageClass.php';
+if (!function_exists('a5_option_page_version')) require_once AE_PATH.'includes/admin-pages.php';
 
 class AdsEasy {
 	
 	const language_file = 'adseasy';
 	
-	static $ba_tag;
+	static $ba_tag, $options;
 	
 	function AdsEasy() {
+		
+		self::$options = get_option(ae_options); 
 		
 		// import laguage files
 	
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		register_activation_hook(  __FILE__, array($this, 'ae_set_option') );
-		register_deactivation_hook(  __FILE__, array($this, 'ae_unset_option') );
+		register_activation_hook(__FILE__, array($this, 'ae_set_option'));
+		register_deactivation_hook(__FILE__, array($this, 'ae_unset_option'));
 		
-		add_filter('plugin_row_meta', array($this, 'ae_register_links'),10,2);
-		add_filter( 'plugin_action_links', array($this, 'ae_plugin_action_links'), 10, 2 );
+		add_filter('plugin_row_meta', array($this, 'ae_register_links'), 10, 2);
+		add_filter('plugin_action_links', array($this, 'ae_plugin_action_links'), 10, 2);
 		
 		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
 		add_action('admin_init', array($this, 'ads_easy_init'));
 		add_action('admin_menu', array($this, 'ae_admin_menu'));
+		add_action('init', array($this, 'a5_check_referer'));
 	
 		/**
 		 *
@@ -66,9 +69,7 @@ class AdsEasy {
 		 */
 		if (!defined('AE_AD_TAGS')) :
 				 
-			$ae_options = get_option('ae_options');
-			
-			$ae_google = (!empty($ae_options)) ? $ae_options['use_google_tags'] : false;
+			$ae_google = (!empty(self::$options)) ? self::$options['use_google_tags'] : false;
 			
 			define('AE_AD_TAGS', $ae_google);
 			
@@ -148,11 +149,11 @@ class AdsEasy {
 	
 	function ae_header() {
 		
-		$ae_options = get_option('ae_options');
+		self::$options = get_option('ae_options');
 		
-		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy')." -->\r\n";
+		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file)." -->\r\n";
 		
-		if ($ae_options['ae_header'] == '1') do_action('google_start_tag');
+		if (self::$options['ae_header'] == '1') do_action('google_start_tag');
 		
 		else do_action('google_ignore_tag');
 		
@@ -160,9 +161,9 @@ class AdsEasy {
 	
 	function ae_loop_start() {
 		
-		$ae_options = get_option('ae_options');
+		self::$options = get_option('ae_options');
 		
-		if ($ae_options['ae_loop'] == '1' && self::$ba_tag == 'ignore') : 
+		if (self::$options['ae_loop'] == '1' && self::$ba_tag == 'ignore') : 
 		
 			do_action('google_end_tag');
 			
@@ -170,7 +171,7 @@ class AdsEasy {
 			
 		endif;
 		
-		if ($ae_options['ae_loop'] == false && self::$ba_tag == 'start') : 
+		if (self::$options['ae_loop'] == false && self::$ba_tag == 'start') : 
 		
 			do_action('google_end_tag');
 			
@@ -182,9 +183,9 @@ class AdsEasy {
 	
 	function ae_sidebar() {
 		
-		$ae_options = get_option('ae_options');
+		self::$options = get_option('ae_options');
 		
-		if ($ae_options['ae_sidebar'] == '1' && self::$ba_tag == 'ignore') : 
+		if (self::$options['ae_sidebar'] == '1' && self::$ba_tag == 'ignore') : 
 		
 			do_action('google_end_tag');
 			
@@ -192,7 +193,7 @@ class AdsEasy {
 			
 		endif;
 		
-		if ($ae_options['ae_sidebar'] == false && self::$ba_tag == 'start') : 
+		if (self::$options['ae_sidebar'] == false && self::$ba_tag == 'start') : 
 		
 			do_action('google_end_tag');
 			
@@ -204,9 +205,7 @@ class AdsEasy {
 	
 	function ae_footer() {
 		
-		$ae_options = get_option('ae_options');
-		
-		if ($ae_options['ae_footer'] == '1' && self::$ba_tag == 'ignore') : 
+		if (self::$options['ae_footer'] == '1' && self::$ba_tag == 'ignore') : 
 		
 			do_action('google_end_tag');
 			
@@ -214,7 +213,7 @@ class AdsEasy {
 			
 		endif;
 		
-		if ($ae_options['ae_footer'] == false && self::$ba_tag == 'start') : 
+		if (self::$options['ae_footer'] == false && self::$ba_tag == 'start') : 
 		
 			do_action('google_end_tag');
 			
@@ -303,51 +302,31 @@ class AdsEasy {
 	
 	function ae_display_tags($labels) {
 		
-		$options = get_option('ae_options');
-		
-		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'use_google_tags', 'label' => $labels[0], 'value' => $options['use_google_tags'], 'space' => 1);
-		
-		$field = new A5_ControlField($args);
+		a5_checkbox('use_google_tags', 'ae_options[use_google_tags]', self::$options['use_google_tags'], $labels[0], false, false, true, true);
 		
 	}
 	
 	function ae_display_header($labels) {
 		
-		$options = get_option('ae_options');
-		
-		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_header', 'label' => $labels[0], 'value' => $options['ae_header'], 'space' => 1);
-		
-		$field = new A5_ControlField($args);
+		a5_checkbox('ae_header', 'ae_options[ae_header]', self::$options['ae_header'], $labels[0], false, false, true, true);
 		
 	}
 	
 	function ae_display_loop($labels) {
 		
-		$options = get_option('ae_options');
-		
-		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_loop', 'label' => $labels[0], 'value' => $options['ae_loop'], 'space' => 1);
-		
-		$field = new A5_ControlField($args);
+		a5_checkbox('ae_loop', 'ae_options[ae_loop]', self::$options['ae_loop'], $labels[0], false, false, true, true);
 	
 	}
 	
 	function ae_display_sidebar($labels) {
 		
-		$options = get_option('ae_options');
+		a5_checkbox('ae_sidebar', 'ae_options[ae_sidebar]', self::$options['ae_sidebar'], $labels[0], false, false, true, true);
 		
-		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_sidebar', 'label' => $labels[0], 'value' => $options['ae_sidebar'], 'space' => 1);
-		
-		$field = new A5_ControlField($args);
-	
 	}
 	
 	function ae_display_footer($labels) {
 		
-		$options = get_option('ae_options');
-		
-		$args = array ('type' => 'checkbox', 'name_base' => 'ae_options', 'field_name' => 'ae_footer', 'label' => $labels[0], 'value' => $options['ae_footer'], 'space' => 1);
-		
-		$field = new A5_ControlField($args);
+		a5_checkbox('ae_footer', 'ae_options[ae_footer]', self::$options['ae_footer'], $labels[0], false, false, true, true);
 		
 	}
 	
@@ -355,7 +334,7 @@ class AdsEasy {
 	
 	function ae_set_option() {
 		
-		add_option('ae_options', $ae_options);
+		add_option('ae_options');
 		
 	}
 	
@@ -371,7 +350,7 @@ class AdsEasy {
 	
 	function ae_admin_menu() {
 		
-		add_plugins_page('Ads Easy', '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'ae_options_page'));
+		add_plugins_page('Ads Easy '.__('Settings', self::language_file), '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'ae_options_page'));
 		
 	}
 	
@@ -382,7 +361,7 @@ class AdsEasy {
 		?>
 		
 		<div class="wrap">
-        <a href="<?php _e('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy'); ?>"><div id="a5-logo" class="icon32" style="background: url('<?php echo plugins_url('adseasy/img/a5-icon-34.png');?>');"></div></a>
+        <a href="<?php _e('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file); ?>"><div id="a5-logo" class="icon32" style="background: url('<?php echo plugins_url('adseasy/img/a5-icon-34.png');?>');"></div></a>
 		<h2>Ads Easy</h2>
 		<?php settings_errors(); ?>
 		
@@ -414,9 +393,29 @@ class AdsEasy {
 		return $newinput;
 	
 	}
+	
+	function a5_check_referer() {
+		
+		if ($_COOKIE['ae_visit_from_se']) return;
+		
+		$referer = $_SERVER['HTTP_REFERER'];
+
+		$search_engines = array('/search?', 'images.google.', 'web.info.com', 'search.', 'del.icio.us/search', 'soso.com', '/search/', '.yahoo.');
+		
+		foreach ($search_engines as $engine) :
+		
+			if (strpos($referer, $engine) !== false ) :
+				
+				setcookie('ae_visit_from_se', 1, time()+3600, "/", bloginfo('url'));
+			
+			endif;
+			
+		endforeach;
+		
+	}
 
 } // end of class
 
-$adeasy = new AdsEasy;
+$adseasy = new AdsEasy;
 
 ?>
