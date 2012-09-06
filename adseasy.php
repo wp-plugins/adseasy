@@ -45,7 +45,7 @@ class AdsEasy {
 	
 	function AdsEasy() {
 		
-		self::$options = get_option(ae_options); 
+		self::$options = get_option(ae_options);
 		
 		// import laguage files
 	
@@ -60,7 +60,6 @@ class AdsEasy {
 		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
 		add_action('admin_init', array($this, 'ads_easy_init'));
 		add_action('admin_menu', array($this, 'ae_admin_menu'));
-		add_action('init', array($this, 'a5_check_referer'));
 	
 		/**
 		 *
@@ -392,26 +391,6 @@ class AdsEasy {
 	
 		return $newinput;
 	
-	}
-	
-	function a5_check_referer() {
-		
-		if ($_COOKIE['ae_visit_from_se']) return;
-		
-		$referer = $_SERVER['HTTP_REFERER'];
-
-		$search_engines = array('/search?', 'images.google.', 'web.info.com', 'search.', 'del.icio.us/search', 'soso.com', '/search/', '.yahoo.');
-		
-		foreach ($search_engines as $engine) :
-		
-			if (strpos($referer, $engine) !== false ) :
-				
-				setcookie('ae_visit_from_se', 1, time()+3600, "/", bloginfo('url'));
-			
-			endif;
-			
-		endforeach;
-		
 	}
 
 } // end of class

@@ -101,7 +101,19 @@ if ($instance['logged_in'] && is_user_logged_in()) $show_user = true;
 
 // user comes from search engine and do we show ads to them?
 
-if ($instance['search_engine'] && $_COOKIE['ae_visit_from_se']) $show_engine = true;
+if ($instance['search_engine']) :
+
+	$referer = $_SERVER['HTTP_REFERER'];
+
+	$search_engines = array('/search?', 'images.google.', 'web.info.com', 'search.', 'del.icio.us/search', 'soso.com', '/search/', '.yahoo.', 'google');
+	
+	foreach ($search_engines as $engine) :
+	
+		if (strpos($referer, $engine) !== false ) $show_engine = true;
+		
+	endforeach;
+
+endif;
 
 // other users! do we? or don't? or what?
 
