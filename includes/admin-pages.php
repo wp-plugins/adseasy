@@ -923,12 +923,12 @@ function a5_submit_button($name, $button_text, $text = false, $echo = true){
  * the javascript at the end of the whole thing
  *
  */
-function a5_nav_js($echo = true){
+function a5_nav_js($plugin_shortname, $echo = true){
 	
 	$eol = "\r\n";
 	$tab = "\t";
 	
-	$output = $eol.$tab.'<script type="text/javascript">'.$eol.$tab.'var pages=new ddtabcontent("a5-pagetabs") //enter ID of Tab Container';
+	$output = $eol.$tab.'<script type="text/javascript">'.$eol.$tab.'var pages=new ddtabcontent("'.$plugin_shortname.'-pagetabs") //enter ID of Tab Container';
 	$output.= $eol.$tab.'pages.setpersist(true) //toogle persistence of the tabs&#39; state'.$eol.$tab.'pages.setselectedClassTarget("link") //"link" or "linkparent"';
 	$output.= $eol.$tab.'pages.init()'.$eol.$tab.'</script>'.$eol.$tab;
 	

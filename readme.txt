@@ -2,9 +2,9 @@
 Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA
 Tags: ads, sidebar, widget, multi widget, advertising, banner, banners, Google AdSense, AdSense, Google AdSense Tags, AdSense Tags
-Requires at least: 2.7
+Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 2.3.1
+Stable tag: 2.4
 
 Ads Easy is the most simple way to integrate some banners into your blog. It works with basically everything and is AdSense optimized.
 
@@ -63,6 +63,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 2.4 =
+
+* Added a checkbox to show the widget only if visitors come from search engines; unfortunately at the moment it happens only one time. but I don't have the time to write code. If anybody has suggestions, you are all wellcome to help with solutions.
+
 = 2.3.1 =
 
 * Fixed some jQuery error
@@ -111,4 +115,8 @@ Bug that caused problems with some themes fixed.
 
 = 2.3.1 =
 
-Fixed some jQuery error
+Fixed some jQuery error.
+
+= 2.4 =
+
+Added a checkbox to show the widget only if visitors come from search engines.
