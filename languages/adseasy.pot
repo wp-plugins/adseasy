@@ -58,6 +58,14 @@ msgstr ""
 msgid "Check to include the footer"
 msgstr ""
 
+#: adseasy.php:286
+msgid "Search Engines:"
+msgstr ""
+
+#: adseasy.php:286
+msgid "How long should the widget be displayed to visitors from search engines (in minutes)?"
+msgstr ""
+
 #: adseasy.php:291
 msgid ""
 "To activate the use of the tags, check the box. The other boxes are there "
@@ -80,6 +88,10 @@ msgstr ""
 
 #: adseasy.php:367
 msgid "Do you use Google Adsense in the widget?"
+msgstr ""
+
+#: adseasy.php:404
+msgid "Please give numeric value for the minutes."
 msgstr ""
 
 #: class-lib/AE_WidgetClass.php:18

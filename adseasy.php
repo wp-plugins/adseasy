@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up. 
-Version: 2.4
+Version: 2.5
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
@@ -45,17 +45,17 @@ class AdsEasy {
 	
 	function AdsEasy() {
 		
-		self::$options = get_option(ae_options);
+		self::$options = get_option('ae_options');
 		
 		// import laguage files
 	
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		register_activation_hook(__FILE__, array($this, 'ae_set_option'));
-		register_deactivation_hook(__FILE__, array($this, 'ae_unset_option'));
+		register_activation_hook(__FILE__, array($this, 'set_options'));
+		register_deactivation_hook(__FILE__, array($this, 'delete_options'));
 		
-		add_filter('plugin_row_meta', array($this, 'ae_register_links'), 10, 2);
-		add_filter('plugin_action_links', array($this, 'ae_plugin_action_links'), 10, 2);
+		add_filter('plugin_row_meta', array($this, 'register_links'), 10, 2);
+		add_filter('plugin_action_links', array($this, 'plugin_action_links'), 10, 2);
 		
 		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
 		add_action('admin_init', array($this, 'ads_easy_init'));
@@ -108,14 +108,14 @@ class AdsEasy {
 		
 		if ($hook != 'widgets.php') return;
 		
-		wp_register_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '2.0', true);
+		wp_register_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '3.0', true);
 		wp_enqueue_script('ta-expander-script');
 	
 	}
 	
 	//Additional links on the plugin page
 	
-	function ae_register_links($links, $file) {
+	function register_links($links, $file) {
 		
 		$base = plugin_basename(__FILE__);
 		
@@ -130,7 +130,7 @@ class AdsEasy {
 	
 	}
 	
-	function ae_plugin_action_links( $links, $file ) {
+	function plugin_action_links( $links, $file ) {
 		
 		$base = plugin_basename(__FILE__);
 		
@@ -283,6 +283,7 @@ class AdsEasy {
 		add_settings_field('ae_loop', 'Loop:', array($this, 'ae_display_loop'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', self::language_file)));
 		add_settings_field('ae_sidebar', 'Sidebar(s):', array($this, 'ae_display_sidebar'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', self::language_file)));
 		add_settings_field('ae_footer', 'Footer:', array($this, 'ae_display_footer'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', self::language_file)));
+		add_settings_field('ae_engine_time', __('Search Engines:', self::language_file), array($this, 'ae_display_time'), 'ae_check_fields', 'ads_easy_settings', array(__('How long should the widget be displayed to visitors from search engines (in minutes)?', self::language_file).'<br/>'));
 	
 	}
 	
@@ -329,17 +330,25 @@ class AdsEasy {
 		
 	}
 	
+	function ae_display_time($labels) {
+		
+		a5_text_field('ae_time', 'ae_options[ae_time]', self::$options['ae_time'], $labels[0], false, false, false, true, true);
+		
+	}
+	
 	// Adding the options
 	
-	function ae_set_option() {
+	function set_options() {
 		
-		add_option('ae_options');
+		$options = array('ae_time' => 5);
+		
+		add_option('ae_options', $options);
 		
 	}
 	
 	// Deleting the options
 	
-	function ae_unset_option() {
+	function delete_options() {
 		
 		delete_option('ae_options');
 		
@@ -388,6 +397,15 @@ class AdsEasy {
 		$newinput['ae_loop'] = trim($input['ae_loop']);
 		$newinput['ae_sidebar'] = trim($input['ae_sidebar']);
 		$newinput['ae_footer'] = trim($input['ae_footer']);
+		$newinput['ae_time'] = trim($input['ae_time']);
+		
+		if (!is_numeric($newinput['ae_time'])) :
+		
+			add_settings_error('ae_settings', 'wrong-time', __('Please give numeric value for the minutes.', self::language_file), 'error');
+			
+			unset($newinput['ae_time']);
+			
+		endif;
 	
 		return $newinput;
 	
