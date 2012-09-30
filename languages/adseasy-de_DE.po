@@ -8,11 +8,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-09-07 23:34+0200\n"
+"PO-Revision-Date: 2012-09-30 23:15+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: wasistlos.waldemarstoffel.com <popel@atelier-fuenf.de>\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "Language: de_DE\n"
+"X-Generator: Poedit 1.5.3\n"
 
 #: adseasy.php:124
 msgid "FAQ"
@@ -60,6 +61,18 @@ msgstr "Anklicken, um die Sidebar(s) einzuschließen"
 msgid "Check to include the footer"
 msgstr "Anklicken, um den Footer einzuschließen"
 
+#: adseasy.php:286
+msgid "Search Engines:"
+msgstr "Suchmaschinen:"
+
+#: adseasy.php:286
+msgid ""
+"How long should the widget be displayed to visitors from search engines (in "
+"minutes)?"
+msgstr ""
+"Wie lange soll das Widget Besuchern, die von Suchmaschinen kommen, gezeigt "
+"werden (in Minuten)?"
+
 #: adseasy.php:291
 msgid ""
 "To activate the use of the tags, check the box. The other boxes are there "
@@ -91,6 +104,10 @@ msgstr ""
 #: adseasy.php:367
 msgid "Do you use Google Adsense in the widget?"
 msgstr "Benutzt du Google AdSense im Widget?"
+
+#: adseasy.php:404
+msgid "Please give numeric value for the minutes."
+msgstr "Bitte gib einen numerischen Wert für die Minuten an."
 
 #: class-lib/AE_WidgetClass.php:18
 msgid ""

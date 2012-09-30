@@ -14,7 +14,7 @@
 
 class A5_OptionPage {
 	
-	const version = '1.0';
+	const version = '1.0.1';
 	
 	public $page_item;
 	
@@ -34,6 +34,7 @@ class A5_OptionPage {
 		$size = ($size) ? ' size="'.$size.'"' : '';
 		$class = ($class) ? ' class="'.$class.'"' : '';
 		$label = ($label) ? '<label for="'.$field_id.'">'.$label.'</label>' : '';
+		$multiple = ($multiple) ? ' multiple="multiple"' : '';
 
 
 		switch ($type) :
@@ -64,13 +65,15 @@ class A5_OptionPage {
 				
 			case 'select' :
 			
-				$output = $eol.$tab.$label.$eol.$tab.'<select name="'.$field_name.'" id="'.$field_id.'"'.$class.$style.'>';
+				$output = $eol.$tab.$label.$eol.$tab.'<select name="'.$field_name.'" id="'.$field_id.'"'.$class.$style.$multiple.'>';
 				
-				if ($default) $output .= $eol.$tab.'<option value="" '.selected( $value, false, false ).'>'.$default.'</option>';
+				if ($default) $output .= $eol.$tab.'<option value="" '.selected( $value[0], false, false ).'>'.$default.'</option>';
 				
 				foreach ($options as $option) :
 				
-					$output .= '<option value="'.$option[0].'" '.selected( $value, $option[0], false ).' >'.$option[1].'</option>';
+					$selected = (in_array($option[0], $value)) ? ' selected="selected"' : '';
+				
+					$output .= $eol.$tab.'<option value="'.$option[0].'"'.$selected.' >'.$option[1].'</option>';
 				
 				endforeach;
 				

@@ -16,13 +16,13 @@
  
 	List of field functions their parameters:
 
-	a5_textarea($field_id, $field_name, $value, [$label], [$style], [$class], [$rows], [$cols], [$space], [$echo])
+	a5_textarea($field_id, $field_name, [$value], [$rows], [$cols], [$label], [$style], [$class], [$space], [$echo])
 
 	a5_checkbox($field_id, $field_name, $value, [$label], [$style], [$class], [$space], [$echo])
 
 	a5_radio($field_id, $field_name, array($value), [$label], [$style], [$class], [$space], [$echo])
 
-	a5_select($field_id, $field_name, $value, array($options), [$label], [$default], [$style], [$class], [$space], [$echo])
+	a5_select($field_id, $field_name, $value, array($options), [$label], [$default], [$style], [$class], [$multiple], [$space], [$echo])
 
 	a5_checkgroup($field_id, $field_name, array($value), [$label], [$checkall], [$style], [$class], [$space], [$echo])
 
@@ -59,32 +59,6 @@
 	a5_resize_textarea(array($field_id), [$echo])
 	
 /**************************************************************************************************/ 
- 
-/***************************************************************************************************
- 
-	List of page functions with their parameters:
-
-	a5_open_page($id, [$echo])
-	
-	a5_next_page($id, [$echo])
-	
-	a5_close_page([$echo])
-	
-	a5_open_section([$echo])
-	
-	a5_next_section([$echo])
-	
-	a5_close_section([$echo])
-	
-	a5_container_left(array($fields), [$echo])
-	
-	a5_container_right($headline, array($text), [$special], [array($message, $priority)], [$echo])
-	
-	a5_submit_button($name, $button_text, [$text], [$echo])
-	
-	a5_nav_js([$echo])
-	
-/**************************************************************************************************/
 
 $a5_option_page = new A5_OptionPage;
  
@@ -106,7 +80,7 @@ function a5_option_page_version() {
  *
  */
  
-function a5_textarea($field_id, $field_name, $value, $label = false, $style = false, $class = false, $rows = false, $cols = false, $space = false, $echo = false) {
+function a5_textarea($field_id, $field_name, $value = false, $rows = false, $cols = false, $label = false, $style = false, $class = false, $space = false, $echo = false) {
 	
 	global $a5_option_page;
 	
@@ -189,19 +163,20 @@ function a5_radio($field_id, $field_name, $value, $label = false, $style = false
  *
  */
  
-function a5_select($field_id, $field_name, $value, $options, $label = false, $default = false, $style = false, $class = false, $space = false, $echo = false) {
+function a5_select($field_id, $field_name, $value, $options, $label = false, $default = false, $style = false, $class = false, $multiple = false, $space = false, $echo = false) {
 	
 	global $a5_option_page;
 	
 	$args = array ( 'type' => 'select',
 					'field_id' => $field_id,
 					'field_name' => $field_name,
-					'value' => $value,
+					'value' => (array) $value,
 					'options' => $options,
 					'label' => $label,
 					'default' => $default,
 					'style' => $style,
 					'class' => $class,
+					'multiple' => $multiple,
 					'space' => $space,
 					'echo' => $echo
 					);
@@ -249,7 +224,7 @@ function a5_checkgroup($field_id, $field_name, $value, $label = false, $checkall
  
 function a5_resize_textarea($field_id, $echo = false) {
 	
-	if (!is_array($field_id)) $field_id[]=$field_id;
+	if (!is_array($field_id)) $field_id=array($field_id);
 	
 	global $a5_option_page;
 	
@@ -685,6 +660,32 @@ function a5_week_field($field_id, $field_name, $value, $label = false, $size = f
 	if ($echo === false) return $week_field;
 	
 }
+
+/***************************************************************************************************
+ 
+	List of page functions with their parameters:
+
+	a5_open_page($id, [$echo])
+	
+	a5_next_page($id, [$echo])
+	
+	a5_close_page([$echo])
+	
+	a5_open_section([$echo])
+	
+	a5_next_section([$echo])
+	
+	a5_close_section([$echo])
+	
+	a5_container_left(array($fields), [$echo])
+	
+	a5_container_right($headline, array($text), [$special], [array($message, $priority)], [$echo])
+	
+	a5_submit_button($name, $button_text, [$text], [$echo])
+	
+	a5_nav_js([$echo])
+	
+/**************************************************************************************************/
 
 /**
  *
