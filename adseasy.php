@@ -2,8 +2,8 @@
 /*
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
-Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up. 
-Version: 2.3.1
+Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
+Version: 2.6
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
@@ -34,28 +34,28 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('Sorry,
 define( 'AE_PATH', plugin_dir_path(__FILE__) );
 
 if (!class_exists('Ads_Easy_Widget')) require_once AE_PATH.'class-lib/AE_WidgetClass.php';
-if (!class_exists('A5_OptionPage')) require_once AE_PATH.'class-lib/A5_OptionPageClass.php';
-if (!function_exists('a5_option_page_version')) require_once AE_PATH.'includes/admin-pages.php';
+if (!class_exists('A5_FormField')) require_once AE_PATH.'class-lib/A5_FormFieldClass.php';
+if (!function_exists('a5_textarea')) require_once AE_PATH.'includes/A5_field-functions.php';
 
 class AdsEasy {
 	
 	const language_file = 'adseasy';
 	
-	static $ba_tag, $options;
+	private static $options;
 	
 	function AdsEasy() {
 		
-		self::$options = get_option(ae_options);
+		self::$options = get_option('ae_options');
 		
 		// import laguage files
 	
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		register_activation_hook(__FILE__, array($this, 'ae_set_option'));
-		register_deactivation_hook(__FILE__, array($this, 'ae_unset_option'));
+		register_activation_hook(__FILE__, array($this, 'set_options'));
+		register_deactivation_hook(__FILE__, array($this, 'delete_options'));
 		
-		add_filter('plugin_row_meta', array($this, 'ae_register_links'), 10, 2);
-		add_filter('plugin_action_links', array($this, 'ae_plugin_action_links'), 10, 2);
+		add_filter('plugin_row_meta', array($this, 'register_links'), 10, 2);
+		add_filter('plugin_action_links', array($this, 'plugin_action_links'), 10, 2);
 		
 		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
 		add_action('admin_init', array($this, 'ads_easy_init'));
@@ -63,38 +63,22 @@ class AdsEasy {
 	
 		/**
 		 *
-		 * Getting the Adsense Tags in the defined areas of the code and create hooks for other plugins
+		 * Getting the Adsense Tags in the
 		 *
 		 */
-		if (!defined('AE_AD_TAGS')) :
-				 
-			$ae_google = (!empty(self::$options)) ? self::$options['use_google_tags'] : false;
-			
-			define('AE_AD_TAGS', $ae_google);
-			
-		endif;
 		
-		if (AE_AD_TAGS == 1) :
+		if (self::$options['use_google_tags']) :
 		
-			add_action( 'wp_head', array($this, 'ae_header'), 1000);
-			add_action( 'loop_start', array($this, 'ae_loop_start'));
-			add_action( 'get_sidebar', array($this, 'ae_sidebar'));
-			add_action( 'dynamic_sidebar', array($this, 'ae_sidebar'));
-			add_action( 'wp_footer', array($this, 'ae_footer'));
-			add_action( 'wp_footer', array($this, 'ae_end_tag'), 1000);
-			
-			// hooks for other plugins
-			
-			add_action( 'google_start_tag', array($this, 'ae_start_tag'));
-			add_action( 'google_ignore_tag', array($this, 'ae_ignore_tag'));
-			add_action( 'google_end_tag', array($this, 'ae_end_tag'));
-			
-			// adding short code 
-			
-			add_shortcode( 'ae_ignore_tag', array($this, 'ae_wrap_ignore'));
-			
-			// get the tinymce plugin
+			// add the button to the editor and the shortcode to wp
+		
 			if (!class_exists('A5_AddMceButton')) require_once AE_PATH.'class-lib/A5_MCEButtonClass.php';
+		
+			add_action('wp_head', array($this, 'write_header_info'), 1000);
+			
+			add_shortcode('ae_ignore_tag', array($this, 'set_ignore_tags'));
+			
+			add_filter('loop_start', array($this, 'google_start'));
+			add_filter('loop_end', array($this, 'google_end'));
 			
 			$tinymce_button = new A5_AddMceButton ('adseasy', 'AdsEasy', 'mce_buttons');
 			
@@ -108,14 +92,14 @@ class AdsEasy {
 		
 		if ($hook != 'widgets.php') return;
 		
-		wp_register_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '2.0', true);
+		wp_register_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '3.0', true);
 		wp_enqueue_script('ta-expander-script');
 	
 	}
 	
 	//Additional links on the plugin page
 	
-	function ae_register_links($links, $file) {
+	function register_links($links, $file) {
 		
 		$base = plugin_basename(__FILE__);
 		
@@ -130,7 +114,7 @@ class AdsEasy {
 	
 	}
 	
-	function ae_plugin_action_links( $links, $file ) {
+	function plugin_action_links( $links, $file ) {
 		
 		$base = plugin_basename(__FILE__);
 		
@@ -146,109 +130,21 @@ class AdsEasy {
 	 *
 	 */
 	
-	function ae_header() {
-		
-		self::$options = get_option('ae_options');
+	function write_header_info() {
 		
 		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file)." -->\r\n";
 		
-		if (self::$options['ae_header'] == '1') do_action('google_start_tag');
+	}
+	
+	function google_start() {
 		
-		else do_action('google_ignore_tag');
+		echo "<!-- google_ad_section_start -->\r\n";
 		
 	}
 	
-	function ae_loop_start() {
+	function google_end() {
 		
-		self::$options = get_option('ae_options');
-		
-		if (self::$options['ae_loop'] == '1' && self::$ba_tag == 'ignore') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_start_tag');
-			
-		endif;
-		
-		if (self::$options['ae_loop'] == false && self::$ba_tag == 'start') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_ignore_tag');
-			
-		endif;
-		
-	}
-	
-	function ae_sidebar() {
-		
-		self::$options = get_option('ae_options');
-		
-		if (self::$options['ae_sidebar'] == '1' && self::$ba_tag == 'ignore') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_start_tag');
-			
-		endif;
-		
-		if (self::$options['ae_sidebar'] == false && self::$ba_tag == 'start') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_ignore_tag');
-			
-		endif;
-		
-	}
-	
-	function ae_footer() {
-		
-		if (self::$options['ae_footer'] == '1' && self::$ba_tag == 'ignore') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_start_tag');
-			
-		endif;
-		
-		if (self::$options['ae_footer'] == false && self::$ba_tag == 'start') : 
-		
-			do_action('google_end_tag');
-			
-			do_action('google_ignore_tag');
-			
-		endif;
-		
-	}
-	
-	function ae_start_tag() {
-		
-		$eol = "\r\n";
-	
-		echo '<!-- google_ad_section_start -->'.$eol;
-		
-		self::$ba_tag = 'start';
-		
-	}
-	
-	function ae_ignore_tag() {
-		
-		$eol = "\r\n";
-	
-		echo '<!-- google_ad_section_start(weight=ignore) -->'.$eol;
-		
-		self::$ba_tag = 'ignore';
-		
-	}
-	
-	function ae_end_tag() {
-		
-		$eol = "\r\n";
-	
-		echo $eol.'<!-- google_ad_section_end -->'.$eol;
-		
-		self::$ba_tag = 'end';
+		echo "<!-- google_ad_section_end -->\r\n";
 		
 	}
 	
@@ -277,12 +173,7 @@ class AdsEasy {
 		
 		add_settings_field('use_google_tags', 'Tags:', array($this, 'ae_display_tags'), 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', self::language_file)));
 		
-		add_settings_section('ads_easy_settings', __('What to wrap in the tags', self::language_file), array($this, 'ae_display_choices'), 'ae_check_fields');
-		
-		add_settings_field('ae_header', 'Header:', array($this, 'ae_display_header'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the header', self::language_file)));
-		add_settings_field('ae_loop', 'Loop:', array($this, 'ae_display_loop'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the loop', self::language_file)));
-		add_settings_field('ae_sidebar', 'Sidebar(s):', array($this, 'ae_display_sidebar'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the sidebar(s)', self::language_file)));
-		add_settings_field('ae_footer', 'Footer:', array($this, 'ae_display_footer'), 'ae_check_fields', 'ads_easy_settings', array(' '.__('Check to include the footer', self::language_file)));
+		add_settings_field('ae_engine_time', __('Search Engines:', self::language_file), array($this, 'ae_display_time'), 'ae_use_adsense', 'ads_easy_google', array(__('How long should the widget be displayed to visitors from search engines (in minutes)?', self::language_file).'<br/>'));
 	
 	}
 	
@@ -301,45 +192,29 @@ class AdsEasy {
 	
 	function ae_display_tags($labels) {
 		
-		a5_checkbox('use_google_tags', 'ae_options[use_google_tags]', self::$options['use_google_tags'], $labels[0], false, false, true, true);
+		a5_checkbox('use_google_tags', 'ae_options[use_google_tags]', self::$options['use_google_tags'], $labels[0]);
 		
 	}
 	
-	function ae_display_header($labels) {
+	function ae_display_time($labels) {
 		
-		a5_checkbox('ae_header', 'ae_options[ae_header]', self::$options['ae_header'], $labels[0], false, false, true, true);
-		
-	}
-	
-	function ae_display_loop($labels) {
-		
-		a5_checkbox('ae_loop', 'ae_options[ae_loop]', self::$options['ae_loop'], $labels[0], false, false, true, true);
-	
-	}
-	
-	function ae_display_sidebar($labels) {
-		
-		a5_checkbox('ae_sidebar', 'ae_options[ae_sidebar]', self::$options['ae_sidebar'], $labels[0], false, false, true, true);
-		
-	}
-	
-	function ae_display_footer($labels) {
-		
-		a5_checkbox('ae_footer', 'ae_options[ae_footer]', self::$options['ae_footer'], $labels[0], false, false, true, true);
+		a5_number_field('ae_time', 'ae_options[ae_time]', self::$options['ae_time'], $labels[0], array('step' => 1));
 		
 	}
 	
 	// Adding the options
 	
-	function ae_set_option() {
+	function set_options() {
 		
-		add_option('ae_options');
+		$options = array('ae_time' => 5);
+		
+		add_option('ae_options', $options);
 		
 	}
 	
 	// Deleting the options
 	
-	function ae_unset_option() {
+	function delete_options() {
 		
 		delete_option('ae_options');
 		
@@ -372,7 +247,6 @@ class AdsEasy {
 		
 		settings_fields('ae_options');
 		do_settings_sections('ae_use_adsense');
-		do_settings_sections('ae_check_fields');
 		
 		submit_button();
 		?>
@@ -384,10 +258,15 @@ class AdsEasy {
 	function ae_validate($input) {
 		
 		$newinput['use_google_tags'] = trim($input['use_google_tags']);
-		$newinput['ae_header'] = trim($input['ae_header']);
-		$newinput['ae_loop'] = trim($input['ae_loop']);
-		$newinput['ae_sidebar'] = trim($input['ae_sidebar']);
-		$newinput['ae_footer'] = trim($input['ae_footer']);
+		$newinput['ae_time'] = trim($input['ae_time']);
+		
+		if (!is_numeric($newinput['ae_time'])) :
+		
+			add_settings_error('ae_settings', 'wrong-time', __('Please give numeric value for the minutes.', self::language_file), 'error');
+			
+			unset($newinput['ae_time']);
+			
+		endif;
 	
 		return $newinput;
 	

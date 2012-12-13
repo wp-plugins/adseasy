@@ -8,11 +8,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-09-07 22:52+0200\n"
+"PO-Revision-Date: 2012-12-13 13:30+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: wasistlos.waldemarstoffel.com <pretzel@waldemarstoffel.com>\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "Language: nl_NL\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: adseasy.php:124
 msgid "FAQ"
@@ -60,25 +61,21 @@ msgstr "Klik, om de sidebar(s) in te sluiten"
 msgid "Check to include the footer"
 msgstr "Klik, om de footer in te sluiten"
 
-#: adseasy.php:291
-msgid ""
-"To activate the use of the tags, check the box. The other boxes are there "
-"for the specific parts of the code."
-msgstr ""
-"Om de tags te activeren, vink het kastje aan. De andere kastjes zijn voor de "
-"specifieke onderdelen van de code."
+#: adseasy.php:286
+msgid "Search Engines:"
+msgstr "Zoekmachines:"
 
-#: adseasy.php:297
+#: adseasy.php:286
 msgid ""
-"Unchecked means, that the ignore tag is placed instead of the start tag. E."
-"g. if you have ads from someone else than Google in the header, it might "
-"make sense to ignore it while if you have widgets in the footer, you "
-"definitely should include those."
+"How long should the widget be displayed to visitors from search engines (in "
+"minutes)?"
 msgstr ""
-"Niet aangevinkt betekent, dat de ignore tag wordt geplaatst in plaats van de "
-"start tag. Als je b.v. ads van een andere aanbieder als Google in de header "
-"hebt staan, kan het zinvol zijn die te ignoreren. Terwijl als je widgets in "
-"de footer hebt, je die zeker zou willen integreren."
+"Hoe lang zou de widget voor bezoekers, die van een zoekmachine komen, te "
+"zien zijn (in minuten)?"
+
+#: adseasy.php:291
+msgid "To activate the use of the tags, check the box."
+msgstr "Om de tags te activeren, vink het kastje aan."
 
 #: adseasy.php:298
 msgid ""
@@ -91,6 +88,10 @@ msgstr ""
 #: adseasy.php:367
 msgid "Do you use Google Adsense in the widget?"
 msgstr "Gebruik jij Google AdSense in de widget?"
+
+#: adseasy.php:404
+msgid "Please give numeric value for the minutes."
+msgstr "Geef een numeriek waarde voor de minuten aub."
 
 #: class-lib/AE_WidgetClass.php:18
 msgid ""
@@ -205,12 +206,12 @@ msgid ""
 "If you don't want to have Ads in your posts and you don't need other stats "
 "than those you get from wordpress and your adservers, this is the most easy "
 "solution. Place the code you get to the widget, style the widget and define, "
-"on what pages it shows up."
+"on what pages it shows up and to what kind of visitors."
 msgstr ""
 "Als je geen ads in je posts wilt hebben en je geen andere statistieken als "
 "die van je adserver nodig hebt, is dit de meest eenvoudige oplossing. Plaats "
-"de code in je widget, style de widget en bepaal op welke pagina&#39; hij te "
-"zien zal zijn."
+"de code in je widget, style de widget en bepaal op welke pagina&#39;s en "
+"voorwelk type van bezoekers hij te zien zal zijn."
 
 #. Author of the plugin/theme
 msgid "Waldemar Stoffel"
