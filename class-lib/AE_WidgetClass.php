@@ -16,7 +16,7 @@ class Ads_Easy_Widget extends WP_Widget {
 	function Ads_Easy_Widget() {
 			
 		$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', self::language_file) );
-		$control_opts = array( 'width' => 400 );
+		$control_opts = array ( 'width' => 400 );
 		
 		parent::WP_Widget(false, $name = 'Ads Easy', $widget_opts, $control_opts);
 	
@@ -52,16 +52,31 @@ class Ads_Easy_Widget extends WP_Widget {
 		$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
 		$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
 		
-		$options = array (array('homepage', $homepage, __('Homepage', self::language_file)), array('frontpage', $frontpage, __('Frontpage (e.g. a static page as homepage)', self::language_file)), array('page', $page, __('&#34;Page&#34; pages', self::language_file)), array('category', $category, __('Category pages', self::language_file)), array('single', $single, __('Single post pages', self::language_file)), array('date', $date, __('Archive pages', self::language_file)), array('tag', $tag, __('Tag pages', self::language_file)), array('attachment', $attachment, __('Attachments', self::language_file)), array('taxonomy', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)), array('author', $author, __('Author pages', self::language_file)), array('search', $search, __('Search Results', self::language_file)), array('not_found', $not_found, __('&#34;Not Found&#34;', self::language_file)));
+		$options = array (
+					array($base_id.'homepage', $base_name.'[homepage]', $homepage, __('Homepage', self::language_file)),
+					array($base_id.'frontpage', $base_name.'[frontpage]', $frontpage, __('Frontpage (e.g. a static page as homepage)', self::language_file)),
+					array($base_id.'page', $base_name.'[page]', $page, __('&#34;Page&#34; pages', self::language_file)),
+					array($base_id.'category', $base_name.'[category]', $category, __('Category pages', self::language_file)),
+					array($base_id.'single', $base_name.'[single]', $single, __('Single post pages', self::language_file)),
+					array($base_id.'date', $base_name.'[date]', $date, __('Archive pages', self::language_file)),
+					array($base_id.'tag', $base_name.'[tag]', $tag, __('Tag pages', self::language_file)),
+					array($base_id.'attachment', $base_name.'[attachment]', $attachment, __('Attachments', self::language_file)),
+					array($base_id.'taxonomy', $base_name.'[taxonomy]', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)),
+					array($base_id.'author', $base_name.'[author]', $author, __('Author pages', self::language_file)),
+					array($base_id.'search', $base_name.'[search]', $search, __('Search Results', self::language_file)),
+					array($base_id.'not_found', $base_name.'[not_found]', $not_found, __('&#34;Not Found&#34;', self::language_file))
+			);
 		
-		a5_text_field($base_id.'name', $base_name.'[name]', $name, __('Title (will be displayed in blog):', self::language_file), false, false, 'widefat', true, true);
-		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Adname (internal widgettitle):', self::language_file), false, false, 'widefat', true, true);
-		a5_checkgroup($base_id, $base_name, $options, __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), __('Check all', self::language_file), false, false, true, true);
-		a5_checkbox($base_id.'logged_in', $base_name.'[logged_in]', $logged_in, __('Show to logged in users.', self::language_file), false, false, true, true);
-		a5_checkbox($base_id.'search_engine', $base_name.'[search_engine]', $search_engine, __('Show to visitors, who come from search engines.', self::language_file), false, false, true, true);
-		a5_checkbox($base_id.'normal', $base_name.'[normal]', $normal, __('Show to other visitors.', self::language_file), false, false, true, true);
-		a5_textarea($base_id.'adblock', $base_name.'[adblock]', $adblock, false, false, __('Just paste the code of your ad here.', self::language_file), 'height: 60px;', 'widefat', true, true);
-		a5_textarea($base_id.'style', $base_name.'[style]', $style, false, false, sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), 'height: 60px;', 'widefat', true, true);
+		$checkall = array($base_id.'checkall', $base_name.'[checkall]', __('Check all', self::language_file));
+		
+		a5_text_field($base_id.'name', $base_name.'[name]', $name, __('Title (will be displayed in blog):', self::language_file), array('space' => true, 'class' => 'widefat'));
+		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Adname (internal widgettitle):', self::language_file), array('space' => true, 'class' => 'widefat'));
+		a5_checkgroup(false, false, $options, __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), $checkall);
+		a5_checkbox($base_id.'logged_in', $base_name.'[logged_in]', $logged_in, __('Show to logged in users.', self::language_file), array('space' => true));
+		a5_checkbox($base_id.'search_engine', $base_name.'[search_engine]', $search_engine, __('Show to visitors, who come from search engines.', self::language_file), array('space' => true));
+		a5_checkbox($base_id.'normal', $base_name.'[normal]', $normal, __('Show to other visitors.', self::language_file), array('space' => true));
+		a5_textarea($base_id.'adblock', $base_name.'[adblock]', $adblock, __('Just paste the code of your ad here.', self::language_file), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
+		a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
 		a5_resize_textarea(array($base_id.'adblock', $base_id.'style'), true);
 		
 	}
