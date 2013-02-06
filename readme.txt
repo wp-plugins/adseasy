@@ -154,6 +154,12 @@ Small changes to the framework; Better performance of the Google AdSense Tags
 
 Small bugfix in a filename
 
-= 2.6.1 =
+= 2.6.2 =
 
 Small bugfix in a framework
+
+= 2.6.3 =
+
+Small bugfix and inner beauty added
+
+
