@@ -688,6 +688,8 @@ function a5_week_field($field_id, $field_name, $min, $max, $value = false, $labe
 	Functions to resize textareas or building fieldsets with checkboxes or radiobuttons
 	
 	a5_checkgroup($fieldset_id, $fieldset_name, $options, [$legend], [$checkall], [$attributes], [$echo])
+	
+	a5_radiogroup($fieldset_id, $fieldset_name, $options, [$legend], [$attributes], [$echo])
 
 	a5_resize_textarea(array($field_id), [$echo])
 
@@ -699,18 +701,18 @@ function a5_week_field($field_id, $field_name, $min, $max, $value = false, $labe
  *
  */
  
-function a5_checkgroup($fieldset_id, $fieldset_name, $options, $legend = false, $checkall = false, $attributes = false, $echo = true) {
+function a5_checkgroup($fieldset_id, $fieldset_name, $item_options, $legend = false, $checkall = false, $attributes = false, $echo = true) {
 	
 	$eol = "\r\n";
 	
-	if ($fielset_id) $attributes['id'] = $fieldset_id;
-	if ($fielset_name) $attributes['name'] = $fieldset_name;
+	if ($fieldset_id) $attributes['id'] = $fieldset_id;
+	if ($fieldset_name) $attributes['name'] = $fieldset_name;
 	
 	$legend = ($legend) ? '<legend>'.$legend.'</legend>'.$eol : '';
 	
 	if ($attributes) foreach ($attributes as $key => $val) $atts .= ' '.$key.'="'.$val.'"';
 	
-	foreach($options as $options) :
+	foreach($item_options as $options) :
 	
 		if (false == $options[4]) :
 			
@@ -767,18 +769,18 @@ function a5_checkgroup($fieldset_id, $fieldset_name, $options, $legend = false, 
  *
  */
  
-function a5_radiogroup($fieldset_id, $fieldset_name, $options, $legend = false, $attributes = false, $echo = true) {
+function a5_radiogroup($fieldset_id, $fieldset_name, $item_options, $legend = false, $attributes = false, $echo = true) {
 	
 	$eol = "\r\n";
 	
-	if ($fielset_id) $attributes['id'] = $fieldset_id;
-	if ($fielset_name) $attributes['name'] = $fieldset_name;
+	if ($fieldset_id) $attributes['id'] = $fieldset_id;
+	if ($fieldset_name) $attributes['name'] = $fieldset_name;
 	
 	$legend = ($legend) ? '<legend>'.$legend.'</legend>'.$eol : '';
 	
 	if ($attributes) foreach ($attributes as $key => $val) $atts .= ' '.$key.'="'.$val.'"';
 	
-	foreach($options as $options) :
+	foreach($item_options as $options) :
 	
 		if (false == $options[4]) :
 			
