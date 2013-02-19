@@ -57,7 +57,7 @@ class A5_FormField {
 			
 				$this->formfield = '<select'.$name.$id.$atts.'>';
 				
-				if (isset($default)) $this->formfield .= $eol.$tab.'<option value="" '.selected( $value[0], false, false ).'>'.$default.'</option>';
+				if (!empty($default)) $this->formfield .= $eol.$tab.'<option value="" '.selected( $value[0], false, false ).'>'.$default.'</option>';
 				
 				foreach ($options as $option) :
 				
