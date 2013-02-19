@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 2.6.1
+Version: 2.6.4
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
@@ -43,7 +43,7 @@ class AdsEasy {
 	
 	private static $options;
 	
-	function AdsEasy() {
+	function __construct() {
 		
 		self::$options = get_option('ae_options');
 		
@@ -67,7 +67,7 @@ class AdsEasy {
 		 *
 		 */
 		
-		if (self::$options['use_google_tags']) :
+		if (isset(self::$options['use_google_tags'])) :
 		
 			// add the button to the editor and the shortcode to wp
 		
@@ -153,7 +153,7 @@ class AdsEasy {
 	 * shortcode for the ignore tags
 	 *
 	 */
-	function ae_wrap_ignore($atts, $content = null){
+	function set_ignore_tags($atts, $content = null){
 		
 		$eol = "\r\n";
 		
@@ -192,7 +192,7 @@ class AdsEasy {
 	
 	function ae_display_tags($labels) {
 		
-		a5_checkbox('use_google_tags', 'ae_options[use_google_tags]', self::$options['use_google_tags'], $labels[0]);
+		a5_checkbox('use_google_tags', 'ae_options[use_google_tags]', @self::$options['use_google_tags'], $labels[0]);
 		
 	}
 	
@@ -204,7 +204,7 @@ class AdsEasy {
 	
 	// Adding the options
 	
-	function set_options() {
+	static function set_options() {
 		
 		$options = array('ae_time' => 5);
 		
@@ -214,7 +214,7 @@ class AdsEasy {
 	
 	// Deleting the options
 	
-	function delete_options() {
+	static function delete_options() {
 		
 		delete_option('ae_options');
 		
