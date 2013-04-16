@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 2.6.4
+Version: 2.6.5
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
@@ -35,7 +35,6 @@ define( 'AE_PATH', plugin_dir_path(__FILE__) );
 
 if (!class_exists('Ads_Easy_Widget')) require_once AE_PATH.'class-lib/AE_WidgetClass.php';
 if (!class_exists('A5_FormField')) require_once AE_PATH.'class-lib/A5_FormFieldClass.php';
-if (!function_exists('a5_textarea')) require_once AE_PATH.'includes/A5_field-functions.php';
 
 class AdsEasy {
 	

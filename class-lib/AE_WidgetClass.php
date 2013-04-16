@@ -13,7 +13,7 @@ class Ads_Easy_Widget extends WP_Widget {
 	
 	const language_file = 'adseasy';
 	
-	function Ads_Easy_Widget() {
+	function __construct() {
 			
 		$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', self::language_file) );
 		$control_opts = array ( 'width' => 400 );
@@ -25,7 +25,27 @@ class Ads_Easy_Widget extends WP_Widget {
 		
 	function form($instance) {
 		
-		$defaults = array( 'homepage' => 1, 'category' => 1, 'logged_in' => 1, 'search_engine' => 1, 'normal' => 1 );
+		$defaults = array(
+				'title' => NULL,
+				'name' => NULL,
+				'adblock' => NULL,
+				'style' => NULL,
+				'homepage' => 1,
+				'frontpage' => false,
+				'page' => false,
+				'category' => 1,
+				'single' => false,
+				'date' => false,
+				'tag' => false,
+				'attachment' => false,
+				'taxonomy' => false,
+				'author' => false,
+				'search' => false,
+				'not_found' => false,
+				'logged_in' => 1,
+				'search_engine' => 1,
+				'normal' => 1
+				);
 		
 		$instance = wp_parse_args( (array) $instance, $defaults );
 		
