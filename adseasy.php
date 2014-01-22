@@ -3,14 +3,14 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 2.6.5
+Version: 2.7
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
 Text Domain: adseasy 
 */
 
-/*  Copyright 2011 - 2012 Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
+/*  Copyright 2011 - 2014 Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ class AdsEasy {
 	 */
 	function ads_easy_init() {
 		
-		register_setting( 'ae_options', 'ae_options', array($this, 'ae_validate') );
+		register_setting( 'ae_options', 'ae_options', array($this, 'validation') );
 		
 		add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', self::language_file), array($this, 'ae_display_use_google'), 'ae_use_adsense');
 		
@@ -254,7 +254,7 @@ class AdsEasy {
 		<?php
 	}
 	
-	function ae_validate($input) {
+	function validation($input) {
 		
 		$newinput['use_google_tags'] = trim($input['use_google_tags']);
 		$newinput['ae_time'] = trim($input['ae_time']);

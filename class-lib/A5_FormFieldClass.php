@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 0.9.5 alpha
+ * Version: 0.9.6 alpha
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -29,7 +29,7 @@ class A5_FormField {
 		$name = (isset($field_name)) ? ' name="'.$field_name.'"' : '';
 		$atts = '';
 		
-		// wrapping the fiel into paragraph tags, if wanted
+		// wrapping the field into paragraph tags, if wanted
 		
 		if (isset($attributes['space'])) :
 			
@@ -451,7 +451,7 @@ function a5_submit($field_id, $field_name, $value = false, $label = false, $attr
 
 /**
  *
- * function to get submit button
+ * function to get reset button
  *
  */
  
