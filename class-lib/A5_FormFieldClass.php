@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 0.9.6 alpha
+ * Version: 0.9.8 alpha
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -24,9 +24,9 @@ class A5_FormField {
 		$eol = "\r\n";
 		$tab = "\t";
 		
-		$id = (isset($field_id)) ? ' id="'.$field_id.'"' : '';
-		$label = (isset($label)) ? '<label for="'.$field_id.'">'.$label.'</label>' : '';
-		$name = (isset($field_name)) ? ' name="'.$field_name.'"' : '';
+		$id = (!empty($field_id) && !is_array($field_id)) ? ' id="'.$field_id.'"' : '';
+		$label = (!empty($label)) ? '<label for="'.$field_id.'">'.$label.'</label>' : '';
+		$name = (!empty($field_name)) ? ' name="'.$field_name.'"' : '';
 		$atts = '';
 		
 		// wrapping the field into paragraph tags, if wanted
@@ -59,7 +59,7 @@ class A5_FormField {
 			
 				$this->formfield = '<select'.$name.$id.$atts.'>';
 				
-				if (isset($default)) $this->formfield .= $eol.$tab.'<option value="" '.selected( $value[0], false, false ).'>'.$default.'</option>';
+				if (!empty($default)) $this->formfield .= $eol.$tab.'<option value="" '.selected( $value[0], false, false ).'>'.$default.'</option>';
 				
 				foreach ($options as $option) :
 				
