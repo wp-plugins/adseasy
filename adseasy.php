@@ -210,7 +210,7 @@ class AdsEasy {
 	
 	function ae_display_use_google() {
 		
-		echo '<p>'.__('To activate the use of the tags, check the box. The other boxes are there for the specific parts of the code.', self::language_file).'</p>';
+		echo '<p>'.__('To activate the use of the tags, check the box.', self::language_file).'</p>';
 	
 	}
 	
