@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 2.8
+Version: 2.9
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3

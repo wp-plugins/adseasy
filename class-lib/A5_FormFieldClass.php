@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 0.9.8 alpha
+ * Version: 0.9.9 alpha
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -829,17 +829,17 @@ function a5_checkgroup($fieldset_id, $fieldset_name, $item_options, $legend = fa
 	
 	foreach($item_options as $options) :
 	
-		if (!isset($options[4])) :
+		if (!array_key_exists(5, $options)) :
 			
-			$options[4] = $options[2];
+			$options[5] = $options[2];
 			
 			$options[2] = true;
 			
 		endif;
 		
-		if ($options[4] == $options[2]) $options[5]['checked'] = 'checked';
+		if ($options[5] == $options[2]) $options[4]['checked'] = 'checked';
 		
-		$attributes = (empty($options[5])) ? array() : (array) $options[5]; 
+		$attributes = (empty($options[4])) ? array() : (array) $options[4]; 
 		
 		$args = array ( 'type' => 'checkbox',
 						'field_id' => $options[0],
@@ -848,7 +848,7 @@ function a5_checkgroup($fieldset_id, $fieldset_name, $item_options, $legend = fa
 						'label' => $options[3],
 						'attributes' => $attributes
 						);
-						
+		# a5_checkbox($field_id / $options[0], $field_name / $options[1], [$value / $options[2]], [$label / $options[3]], [array($attributes) / $options[4]], [$checked / $options[5]], [$echo / $options[6]])				
 		$checkbox = new A5_FormField($args);
 		
 		$boxes .= $checkbox->formfield;

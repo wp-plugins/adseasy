@@ -5,7 +5,7 @@
  * Class A5 Option Page
  *
  * @ A5 Plugin Framework
- * Version: 0.9.8 alpha
+ * Version: 0.9.9 alpha
  *
  * Gets all sort of containers for the flexible A5 settings pages
  *
@@ -118,6 +118,33 @@ class A5_OptionPage {
 	static function close_draggable() {
 		
 		self::close_tab();
+		
+	}
+	
+	/**
+	 *
+	 * Wrapping sections in containers
+	 *
+	 */
+	static function wrap_section($section_id, $atts = false) {
+		
+		$eol = "\r\n";
+		
+		$tab = "\t";
+		
+		if (false !== $atts) :
+		
+			$attributes = '';
+		
+			foreach ($atts as $attribute => $value) $attributes .= ' '.$attribute.'="'.$value.'"';
+			
+		endif;
+	
+		echo $eol.'<div'.$attributes.'>'.$eol.$tab;
+		
+		do_settings_sections($section_id);
+		
+		echo $eol.'</div>'.$eol;
 		
 	}
 	
