@@ -63,6 +63,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 3.0 =
+
+* More changes in framework
+
 = 2.9 =
 
 * Framework updated
@@ -198,6 +202,10 @@ Smaller streamlining done
 
 Instead of styling each individual widget, you can style now the whole class
 
-=2.9 =
+= 2.9 =
 
-Framework updated
+Adjusted Framework
+
+= 3.0 =
+
+More changes in framework

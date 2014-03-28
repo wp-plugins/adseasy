@@ -5,7 +5,7 @@
  * Class A5 Option Page
  *
  * @ A5 Plugin Framework
- * Version: 0.9.9 alpha
+ * Version: 0.99 beta
  *
  * Gets all sort of containers for the flexible A5 settings pages
  *
@@ -132,9 +132,9 @@ class A5_OptionPage {
 		
 		$tab = "\t";
 		
-		if (false !== $atts) :
+		$attributes = '';
 		
-			$attributes = '';
+		if (false !== $atts) :
 		
 			foreach ($atts as $attribute => $value) $attributes .= ' '.$attribute.'="'.$value.'"';
 			
@@ -146,6 +146,85 @@ class A5_OptionPage {
 		
 		echo $eol.'</div>'.$eol;
 		
+	}
+	
+	/**
+	 *
+	 * Wrapping elements into html tags
+	 *
+	 */
+	static function tag_it($element, $tag, $indent = false, $atts = false, $echo = false) {
+	
+		$eol = "\r\n";
+		
+		$tab = "\t";
+		
+		$attributes = '';
+		
+		if (false !== $atts) :
+			
+			foreach ($atts as $attribute => $value) $attributes .= ' '.$attribute.'="'.$value.'"';
+		
+		endif;
+		
+		$item = $eol;
+		
+		if (false != $indent) :
+		
+			for ($i = 0; $i <= $indent; $i++) $item .= $tab;
+			
+		endif;
+		
+		$item .= '<'.$tag.$attributes.'>'.$element.'</'.$tag.'>';
+		
+		if (false === $echo) return $item;
+		
+		echo $item; 
+	
+	}
+	
+	/**
+	 *
+	 * Wrapping fields in unordered lists
+	 *
+	 * uses tag_it function
+	 *
+	 */
+	static function list_it($fields, $header = false, $atts = false, $list_atts = false, $echo = true) {
+	
+		$eol = "\r\n";
+		
+		$list = '';
+		
+		$list_items = '';
+		
+		if (false != $header) $list .= $header.$eol;
+		
+		foreach ($fields as $field) $list_items .= self::tag_it($field, 'li', 1, $list_atts);
+		
+		$list .= self::tag_it($list_items, 'ul', $atts);
+		
+		if (false === $echo) return $list;
+		
+		echo $list;
+	
+	}
+	
+	/**
+	 *
+	 * Putting the clear both div
+	 *
+	 * uses tag_it function
+	 *
+	 */
+	static function clear_it($echo = true) {
+	
+		$clear_both = self::tag_it('', 'div', false, array('style' => 'clear: both;'));
+		
+		if (false === $echo) return $clear_both;
+		
+		echo $clear_both;
+	
 	}
 	
 } // A5_OptionPage

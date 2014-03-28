@@ -163,20 +163,14 @@ class Ads_Easy_Widget extends WP_Widget {
 			$title = apply_filters('widget_title', $instance['name']);	
 			
 			if (empty($instance['style'])) :
-				
-				$ae_before_widget=$before_widget;
-				$ae_after_widget=$after_widget;
 			
-			else :
+				$style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
 				
-				$ae_style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
-				
-				$ae_before_widget='<div id="'.$widget_id.'" style="'.$ae_style.'" class="widget_ads_easy_widget">';
-				$ae_after_widget='</div>';
-				
+				$before_widget = str_replace('>', 'style="'.$style.'">', $before_widget);
+			
 			endif;
 			
-			echo $ae_before_widget;
+			echo $before_widget;
 			
 			if ( $title ) echo $before_title . $title . $after_title;
 		 
@@ -184,7 +178,7 @@ class Ads_Easy_Widget extends WP_Widget {
 				
 			echo $instance['adblock'];
 			
-			echo $ae_after_widget;
+			echo $after_widget;
 		
 		endif;
 	
