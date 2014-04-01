@@ -18,7 +18,7 @@ class AE_DynamicCSS extends A5_DynamicFiles {
 		
 		self::$options =  get_option('ae_options');
 		
-		if (!array_key_exists('inline', self::$options)) self::$options['inline'] = NULL;
+		if (!isset(self::$options['inline'])) self::$options['inline'] = false;
 		
 		parent::A5_DynamicFiles('wp', 'css', false, self::$options['inline']);
 		
