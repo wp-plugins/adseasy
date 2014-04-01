@@ -153,7 +153,7 @@ class AE_Admin extends A5_OptionPage {
 			
 		endif;
 		
-		self::$options['inline'] = isset($input['inline']) ? true : NULL;
+		self::$options['inline'] = isset($input['inline']) ? true : false;
 		
 		return self::$options;
 	

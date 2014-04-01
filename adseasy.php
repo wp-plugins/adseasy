@@ -3,7 +3,7 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 3.0
+Version: 2.9
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
@@ -58,13 +58,13 @@ class AdsEasy {
 	
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		register_activation_hook(__FILE__, array($this, 'install'));
-		register_deactivation_hook(__FILE__, array($this, 'uninstall'));
+		register_activation_hook(__FILE__, array(&$this, '_install'));
+		register_deactivation_hook(__FILE__, array(&$this, '_uninstall'));
 		
-		add_filter('plugin_row_meta', array($this, 'register_links'), 10, 2);
-		add_filter('plugin_action_links', array($this, 'register_action_links'), 10, 2);
+		add_filter('plugin_row_meta', array(&$this, 'register_links'), 10, 2);
+		add_filter('plugin_action_links', array(&$this, 'register_action_links'), 10, 2);
 		
-		add_action('admin_enqueue_scripts', array($this, 'ae_js_sheet'));
+		add_action('admin_enqueue_scripts', array(&$this, 'enqueue_scripts'));
 		
 		/**
 		 *
@@ -103,7 +103,7 @@ class AdsEasy {
 	
 	/* attach JavaScript file for textarea resizing */
 	
-	function ae_js_sheet($hook) {
+	function enqueue_scripts($hook) {
 		
 		if ($hook != 'widgets.php' && $hook != 'plugins_page_ads-easy-settings') return;
 		
@@ -173,9 +173,12 @@ class AdsEasy {
 	
 	// Adding the options
 	
-	static function install() {
+	static function _install() {
 		
-		$options = array('ae_time' => 5);
+		$options = array(
+			'ae_time' => 5,
+			'inline' => false
+		);
 		
 		add_option('ae_options', $options);
 		
@@ -183,7 +186,7 @@ class AdsEasy {
 	
 	// Deleting the options
 	
-	static function uninstall() {
+	static function _uninstall() {
 		
 		delete_option('ae_options');
 		
@@ -191,6 +194,6 @@ class AdsEasy {
 
 } // end of class
 
-$adseasy = new AdsEasy;
+$AdsEasy = new AdsEasy;
 
 ?>
