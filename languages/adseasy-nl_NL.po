@@ -1,17 +1,18 @@
-# Copyright (C) 2014 Ads Easy
+# Copyright (C) 2012 Ads Easy
 # This file is distributed under the same license as the Ads Easy package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ads Easy 2.7\n"
+"Project-Id-Version: Ads Easy 2.3.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/adseasy\n"
-"POT-Creation-Date: 2014-03-27 13:42+0200\n"
-"PO-Revision-Date: 2014-03-27 13:42+0200\n"
+"POT-Creation-Date: 2014-04-22 14:39+0200\n"
+"PO-Revision-Date: 2014-04-22 14:41+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
-"Language-Team: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
+"Language-Team: wasistlos.waldemarstoffel.com <pretzel@waldemarstoffel.com>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.6.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -30,11 +31,11 @@ msgid "Donate"
 msgstr "Donatie"
 
 #: adseasy.php:132 class-lib/A5_OptionPageClass.php:31
-#: class-lib/AE_AdminClass.php:34
+#: class-lib/AE_AdminClass.php:48
 msgid "Settings"
 msgstr "Instellingen"
 
-#: adseasy.php:146 class-lib/AE_AdminClass.php:45
+#: adseasy.php:146 class-lib/AE_AdminClass.php:59
 msgid "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 msgstr "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 
@@ -42,31 +43,31 @@ msgstr "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 msgid "Click to toggle"
 msgstr "Klicken, om om te schakelen."
 
-#: class-lib/AE_AdminClass.php:45
+#: class-lib/AE_AdminClass.php:59
 msgid "Plugin Support"
 msgstr "Plugin Support"
 
-#: class-lib/AE_AdminClass.php:49
+#: class-lib/AE_AdminClass.php:63
 msgid "Do you use Google Adsense in the widget?"
 msgstr "Gebruik jij Google AdSense in de widget?"
 
-#: class-lib/AE_AdminClass.php:62
+#: class-lib/AE_AdminClass.php:76
 msgid "Debug Info"
 msgstr "Debug info"
 
-#: class-lib/AE_AdminClass.php:89
+#: class-lib/AE_AdminClass.php:103
 msgid "Use the Google AdSense Tags"
 msgstr "Google AdSense Tags gebruiken"
 
-#: class-lib/AE_AdminClass.php:91
+#: class-lib/AE_AdminClass.php:105
 msgid "Check to use the Google AdSense Tags"
 msgstr "Aanklikken, om Google AdSense Tags te gebruiken"
 
-#: class-lib/AE_AdminClass.php:93
+#: class-lib/AE_AdminClass.php:107
 msgid "Search Engines:"
 msgstr "Zoekmachines:"
 
-#: class-lib/AE_AdminClass.php:93
+#: class-lib/AE_AdminClass.php:107
 msgid ""
 "How long should the widget be displayed to visitors from search engines (in "
 "minutes)?"
@@ -74,7 +75,7 @@ msgstr ""
 "Hoe lang zou de widget voor bezoekers, die van een zoekmachine komen, te "
 "zien zijn (in minuten)?"
 
-#: class-lib/AE_AdminClass.php:95
+#: class-lib/AE_AdminClass.php:109
 msgid ""
 "You can enter your own style for the widgets here. This will overwrite the "
 "styles of your theme."
@@ -82,7 +83,7 @@ msgstr ""
 "Je kunt hier je eigen stijl voor de widgets invoegen. Dat gaat de stijlen "
 "van je theme overschrijven."
 
-#: class-lib/AE_AdminClass.php:95
+#: class-lib/AE_AdminClass.php:109
 msgid ""
 "If you leave this empty, you can still style every instance of the widget "
 "individually."
@@ -90,23 +91,31 @@ msgstr ""
 "Als je dit veld leeg laat, kun je noch steeds elke instantie van de widget "
 "individueel aanpassen."
 
-#: class-lib/AE_AdminClass.php:97
+#: class-lib/AE_AdminClass.php:111
+msgid "Compress Style Sheet:"
+msgstr "Comprimeer Style Sheet:"
+
+#: class-lib/AE_AdminClass.php:111
+msgid "Click here to compress the style sheet."
+msgstr "Hier klikken, om het style sheet te comprimeren."
+
+#: class-lib/AE_AdminClass.php:113
 msgid "Debug:"
 msgstr "Debug:"
 
-#: class-lib/AE_AdminClass.php:97
+#: class-lib/AE_AdminClass.php:113
 msgid ""
-"If you can&#39;t reach the dynamical style sheet, you&#39;ll have to diplay "
+"If you can&#39;t reach the dynamical style sheet, you&#39;ll have to display "
 "the styles inline. By clicking here you can do so."
 msgstr ""
 "In sommige gevallen kan de dynamische style sheet niet worden geladen. Als "
-"je hier klickt, wordt de CSS inline in de HTML"
+"je hier klickt, wordt de CSS inline in de HTML geschreven."
 
-#: class-lib/AE_AdminClass.php:105
+#: class-lib/AE_AdminClass.php:121
 msgid "To activate the use of the tags, check the box."
 msgstr "Om de tags te activeren, vink het kastje aan."
 
-#: class-lib/AE_AdminClass.php:150
+#: class-lib/AE_AdminClass.php:172
 msgid "Please give numeric value for the minutes."
 msgstr "Geef een numeriek waarde voor de minuten aub."
 

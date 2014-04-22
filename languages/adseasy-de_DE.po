@@ -4,10 +4,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ads Easy 2.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/adseasy\n"
-"POT-Creation-Date: 2014-03-27 13:42+0200\n"
-"PO-Revision-Date: 2014-03-27 13:42+0200\n"
+"POT-Creation-Date: 2014-04-22 14:41+0200\n"
+"PO-Revision-Date: 2014-04-22 14:42+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
-"Language-Team: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgid "Donate"
 msgstr "Spenden"
 
 #: adseasy.php:132 class-lib/A5_OptionPageClass.php:31
-#: class-lib/AE_AdminClass.php:34
+#: class-lib/AE_AdminClass.php:48
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: adseasy.php:146 class-lib/AE_AdminClass.php:45
+#: adseasy.php:146 class-lib/AE_AdminClass.php:59
 msgid "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 msgstr "http://blog.atelier-fuenf.de/wordpress-plugins/ads-easy"
 
@@ -42,31 +42,31 @@ msgstr "http://blog.atelier-fuenf.de/wordpress-plugins/ads-easy"
 msgid "Click to toggle"
 msgstr "Zum Umschalten klicken"
 
-#: class-lib/AE_AdminClass.php:45
+#: class-lib/AE_AdminClass.php:59
 msgid "Plugin Support"
 msgstr "Plugin Support"
 
-#: class-lib/AE_AdminClass.php:49
+#: class-lib/AE_AdminClass.php:63
 msgid "Do you use Google Adsense in the widget?"
 msgstr "Benutzt du Google AdSense im Widget?"
 
-#: class-lib/AE_AdminClass.php:62
+#: class-lib/AE_AdminClass.php:76
 msgid "Debug Info"
 msgstr "Info zur Fehlersuche"
 
-#: class-lib/AE_AdminClass.php:89
+#: class-lib/AE_AdminClass.php:103
 msgid "Use the Google AdSense Tags"
 msgstr "Google AdSense Tags benutzen"
 
-#: class-lib/AE_AdminClass.php:91
+#: class-lib/AE_AdminClass.php:105
 msgid "Check to use the Google AdSense Tags"
 msgstr "Anklicken, um Google AdSense Tags zu benutzen"
 
-#: class-lib/AE_AdminClass.php:93
+#: class-lib/AE_AdminClass.php:107
 msgid "Search Engines:"
 msgstr "Suchmaschinen:"
 
-#: class-lib/AE_AdminClass.php:93
+#: class-lib/AE_AdminClass.php:107
 msgid ""
 "How long should the widget be displayed to visitors from search engines (in "
 "minutes)?"
@@ -74,7 +74,7 @@ msgstr ""
 "Wie lange soll das Widget Besuchern, die von Suchmaschinen kommen, gezeigt "
 "werden (in Minuten)?"
 
-#: class-lib/AE_AdminClass.php:95
+#: class-lib/AE_AdminClass.php:109
 msgid ""
 "You can enter your own style for the widgets here. This will overwrite the "
 "styles of your theme."
@@ -82,7 +82,7 @@ msgstr ""
 "Du kannst deinen eigenen Stil für die Widgets hier eingeben. Das wird die "
 "Stile deines Themes überschreiben."
 
-#: class-lib/AE_AdminClass.php:95
+#: class-lib/AE_AdminClass.php:109
 msgid ""
 "If you leave this empty, you can still style every instance of the widget "
 "individually."
@@ -90,24 +90,32 @@ msgstr ""
 "Wenn du das Feld leer lässt, kannst du immer noch jede Instanz des Widgets "
 "individuell stylen."
 
-#: class-lib/AE_AdminClass.php:97
-msgid "Debug:"
-msgstr "Debug"
+#: class-lib/AE_AdminClass.php:111
+msgid "Compress Style Sheet:"
+msgstr "Stylesheet Komprimieren:"
 
-#: class-lib/AE_AdminClass.php:97
+#: class-lib/AE_AdminClass.php:111
+msgid "Click here to compress the style sheet."
+msgstr "Anklicken, um das Stylesheet zu komprimieren."
+
+#: class-lib/AE_AdminClass.php:113
+msgid "Debug:"
+msgstr "Debug:"
+
+#: class-lib/AE_AdminClass.php:113
 msgid ""
-"If you can&#39;t reach the dynamical style sheet, you&#39;ll have to diplay "
+"If you can&#39;t reach the dynamical style sheet, you&#39;ll have to display "
 "the styles inline. By clicking here you can do so."
 msgstr ""
 "In manchen Fällen kann das virtuelle Style Sheet nicht erreicht werden. Ein "
 "Ablegen des CSS im Quellcode hilft dann. Hier klicken, um CSS inline zu "
 "schreiben."
 
-#: class-lib/AE_AdminClass.php:105
+#: class-lib/AE_AdminClass.php:121
 msgid "To activate the use of the tags, check the box."
 msgstr "Um die Tags zu aktivieren, klicke das Kästchen an."
 
-#: class-lib/AE_AdminClass.php:150
+#: class-lib/AE_AdminClass.php:172
 msgid "Please give numeric value for the minutes."
 msgstr "Bitte gib einen numerischen Wert für die Minuten an."
 

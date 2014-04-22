@@ -19,8 +19,22 @@ class AE_Admin extends A5_OptionPage {
 	
 		add_action('admin_init', array(&$this, 'initialize_settings'));
 		add_action('admin_menu', array(&$this, 'add_admin_menu'));
+		if (defined('WP_DEBUG') && WP_DEBUG == true) add_action('admin_enqueue_scripts', array(&$this, 'enqueue_scripts'));
 		
 		self::$options = get_option('ae_options');
+		
+	}
+	
+	/**
+	 *
+	 * Make debug info collapsable
+	 *
+	 */
+	function enqueue_scripts($hook){
+		
+		if ('plugins_page_ads-easy-settings' != $hook) return;
+		
+		wp_enqueue_script('dashboard');
 		
 	}
 	
@@ -94,7 +108,9 @@ class AE_Admin extends A5_OptionPage {
 		
 		add_settings_field('use_own_css', 'CSS:', array(&$this, 'ae_display_css'), 'ae_use_adsense', 'ads_easy_google', array(__('You can enter your own style for the widgets here. This will overwrite the styles of your theme.', self::language_file), __('If you leave this empty, you can still style every instance of the widget individually.', self::language_file)));
 		
-		add_settings_field('ae_inline', __('Debug:', self::language_file), array(&$this, 'inline_field'), 'ae_use_adsense', 'ads_easy_google', array(__('If you can&#39;t reach the dynamical style sheet, you&#39;ll have to diplay the styles inline. By clicking here you can do so.', self::language_file)));
+		add_settings_field('ae_compress', __('Compress Style Sheet:', self::language_file), array(&$this, 'compress_field'), 'ae_use_adsense', 'ads_easy_google', array(__('Click here to compress the style sheet.', self::language_file)));
+		
+		add_settings_field('ae_inline', __('Debug:', self::language_file), array(&$this, 'inline_field'), 'ae_use_adsense', 'ads_easy_google', array(__('If you can&#39;t reach the dynamical style sheet, you&#39;ll have to display the styles inline. By clicking here you can do so.', self::language_file)));
 		
 		add_settings_field('ae_resize', false, array(&$this, 'resize_field'), 'ae_use_adsense', 'ads_easy_google');
 	
@@ -126,6 +142,12 @@ class AE_Admin extends A5_OptionPage {
 		
 	}
 	
+	function compress_field($labels) {
+		
+		a5_checkbox('compress', 'ae_options[compress]', @self::$options['compress'], $labels[0]);
+		
+	}
+	
 	function inline_field($labels) {
 		
 		a5_checkbox('inline', 'ae_options[inline]', @self::$options['inline'], $labels[0]);
@@ -153,6 +175,7 @@ class AE_Admin extends A5_OptionPage {
 			
 		endif;
 		
+		self::$options['compress'] = isset($input['compress']) ? true : false;
 		self::$options['inline'] = isset($input['inline']) ? true : false;
 		
 		return self::$options;
