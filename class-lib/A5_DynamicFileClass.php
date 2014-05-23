@@ -5,7 +5,7 @@
  * Class A5 Dynamic Files
  *
  * @ A5 Plugin Framework
- * Version: 0.99 beta
+ * Version: 1.0 beta
  *
  * Handels styles or javascript in either dynamical files or inline
  * 
@@ -17,7 +17,7 @@
 
 class A5_DynamicFiles {
 	
-	const version = '0.99 beta';
+	const version = '1.0 beta';
 	
 	public static $wp_styles = '', $admin_styles = '', $login_styles = '', $wp_scripts = '', $admin_scripts = '', $login_scripts = '';
 	

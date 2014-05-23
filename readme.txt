@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: ads, sidebar, widget, multi widget, advertising, banner, banners, Google AdSense, AdSense, Google AdSense Tags, AdSense Tags
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 2.9.1
+Stable tag: 2.9.2
 
 Ads Easy is the most simple way to integrate some banners into your blog. It works with basically everything and is AdSense optimized.
 
@@ -62,6 +62,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 3. The widget's settings section
 
 == Changelog ==
+
+= 2.9.2 =
+
+* Interference with Wordpress Page Widgets eliminated
 
 = 2.9.1 =
 
@@ -209,3 +213,7 @@ Framework updated
 = 2.9.1 =
 
 DSS is now compressable
+
+= 2.9.2 =
+
+Interference with Wordpress Page Widgets eliminated
