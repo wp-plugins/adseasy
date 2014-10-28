@@ -5,29 +5,30 @@
  * Class A5 Dynamic Files
  *
  * @ A5 Plugin Framework
- * Version: 0.99 beta
+ * Version: 1.0 beta
  *
  * Handels styles or javascript in either dynamical files or inline
  * 
- * @ parameter $place = 'wp' selects where to attach the file or print inline (wp, admin, login)
+ * @ parameter $place = 'wp' selects where to attach the file or print inline (wp, admin, login), $priority (of style inline)
  * @ optional $type = 'css' the filetype that should be generated (css, js, export)
- * @ optional [(array) $hooks], [(bool) $inline], [(array) $args] for exporting only
+ * @ optional $media = 'all' (for css)
+ * @ optional [(array) $hooks], [(bool) $inline], [(int) $priority],[(array) $args] for exporting only
  *
  */
 
 class A5_DynamicFiles {
 	
-	const version = '0.99 beta';
+	const version = '1.0 beta';
 	
-	public static $styles = '';
+	public static $wp_styles = '', $admin_styles = '', $login_styles = '', $wp_scripts = '', $admin_scripts = '', $login_scripts = '';
 	
-	public static $scripts = '';
+	private static $type, $media, $hooks;
 	
-	private static $type, $hooks;
-	
-	function A5_DynamicFiles($place = 'wp', $type = false, $hooks = false, $inline = false) {
+	function A5_DynamicFiles($place = 'wp', $type = false, $media = false, $hooks = false, $inline = false, $priority = false) {
 		
 		self::$type = ($type) ? $type : 'css';
+		
+		self::$media = ($media) ? $media : 'all';
 		
 		if ($hooks === false) :
 		
@@ -41,14 +42,16 @@ class A5_DynamicFiles {
 		
 		if (true === $inline) :
 		
-			add_action($place.'_head', array(&$this, 'print_inline'));
+			add_action($place.'_head', array(&$this, 'print_'.$place.'_inline'), $priority);
 		
 		else :
 		
 			add_action('init', array (&$this, 'add_rewrite'));
-			add_action('template_redirect', array (&$this, 'css_template'));
+			add_action('template_redirect', array (&$this, 'file_template'));
 			
-			add_action ($place.'_enqueue_scripts', array (&$this, $place.'_enqueue_scripts'));
+			$action = ('login' == $place) ? '_head' : '_enqueue_scripts'; 
+			
+			add_action ($place.'_enqueue_scripts', array (&$this, $place.'_enqueue_scripts'), $priority);
 			
 		endif;
 
@@ -63,43 +66,63 @@ class A5_DynamicFiles {
 	
 	}
 	
-	function css_template() {
+	function file_template() {
 		
 		$A5_file = get_query_var('A5_file');
 		
-		if ($A5_file == 'wp_css' || $A5_file == 'admin_css' || $A5_file == 'login_css') :
-		   
-			header('Content-type: text/css');
-			
-			echo $this->write_dss();
-			
-			exit;
+		switch ($A5_file) :
 		
-		endif;
-		
-		if ($A5_file == 'wp_js' || $A5_file == 'admin_js' || $A5_file == 'login_js') :
-		
-			header('Content-type: text/javascript');
+			case 'wp_css' :
 			
-			echo $this->write_djs();
+				$this->write_wp_dss();
+				
+				break;
+				
+			case 'admin_css' :
 			
-			exit;
-		
-		endif;
-		
-		if ($A5_file == 'export') :
-		
-			extract($args);
+				$this->write_admin_dss();
+				
+				break;
+				
+			case 'login_css' :
 			
-			header('Content-Description: File Transfer');
-			header('Content-Disposition: attachment; filename="'.$name.'-' . str_replace('.','-', $_SERVER['SERVER_NAME']) . '-' . date('Y') . date('m') . date('d') . '.txt"');
-			header('Content-Type: text/plain; charset=utf-8');
+				$this->write_login_dss();
+				
+				break;
+				
+			case 'wp_js' :
 			
-			echo json_encode($options);
+				$this->write_wp_djs();
+				
+				break;
+				
+			case 'admin_js' :
 			
-			exit;
+				$this->write_admin_djs();
+				
+				break;
+				
+			case 'login_js' :
+			
+				$this->write_login_djs();
+				
+				break;
+			
+			case 'export' :
+			
+				extract($args);
+				
+				header('Content-Description: File Transfer');
+				header('Content-Disposition: attachment; filename="'.$name.'-' . str_replace('.','-', $_SERVER['SERVER_NAME']) . '-' . date('Y') . date('m') . date('d') . '.txt"');
+				header('Content-Type: text/plain; charset=utf-8');
+				
+				echo json_encode($options);
+				
+				exit;
+			
+				break;
 		
-		endif;
+		endswitch;
 	
 	}
 	
@@ -109,7 +132,7 @@ class A5_DynamicFiles {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=wp_css';
 			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, 'all');
+		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
@@ -126,7 +149,7 @@ class A5_DynamicFiles {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=admin_css';
 			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, 'all');
+		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
@@ -137,52 +160,164 @@ class A5_DynamicFiles {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=login_css';
 			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, 'all');
+		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
 	
 	// writing the styles to a dynamic file
 	
-	function write_dss() {
+	function write_wp_dss() {
 	
 		$eol = "\r\n";
 		
+		header('Content-type: text/css');
+		
 		$css_text = '@charset "UTF-8";'.$eol.'/* CSS Document createtd by the A5 Plugin Framework */'.$eol;
 		
-		$css_text .= self::$styles;
+		$css_text .= self::$wp_styles;
 		
-		echo $css_text;	
+		echo $css_text;
+		
+		exit;
+		
+	}
+	
+	function write_admin_dss() {
+		
+		$eol = "\r\n";
+		
+		header('Content-type: text/css');
+		
+		$css_text = '@charset "UTF-8";'.$eol.'/* CSS Document createtd by the A5 Plugin Framework */'.$eol;
+		
+		$css_text .= self::$admin_styles;
+		
+		echo $css_text;
+		
+		exit;
+		
+	}
+	
+	function write_login_dss() {
+	
+		$eol = "\r\n";
+		
+		header('Content-type: text/css');
+		
+		$css_text = '@charset "UTF-8";'.$eol.'/* CSS Document createtd by the A5 Plugin Framework */'.$eol;
+		
+		$css_text .= self::$login_styles;
+		
+		echo $css_text;
+		
+		exit;
 		
 	}
 	
 	// writing the javascript to a dynamic file
 	
-	function write_djs() {
+	function write_wp_djs() {
 	
 		$eol = "\r\n";
 		
-		$css_text = '@charset "UTF-8";'.$eol.'/* CSS Document createtd by the A5 Plugin Framework */'.$eol;
+		header('Content-type: text/javascript');
 		
-		$css_text .= self::$styles;
+		$js_text = '// JavaScript Document createtd by the A5 Plugin Framework'.$eol;
 		
-		echo $css_text;	
+		$js_text .= self::$wp_scripts;
+		
+		echo $js_text;
+		
+		exit;
 		
 	}
 	
-	// writing the styles inline
+	function write_admin_djs() {
 	
-	function print_inline() {
+		$eol = "\r\n";
+		
+		header('Content-type: text/javascript');
+		
+		$js_text = '// JavaScript Document createtd by the A5 Plugin Framework'.$eol;
+		
+		$js_text .= self::$admin_scripts;
+		
+		echo $js_text;
+		
+		exit;	
+		
+	}
+	
+	function write_login_djs() {
+	
+		$eol = "\r\n";
+		
+		header('Content-type: text/javascript');
+		
+		$js_text = '// JavaScript Document createtd by the A5 Plugin Framework'.$eol;
+		
+		$js_text .= self::$login_scripts;
+		
+		echo $js_text;
+		
+		exit;
+		
+	}
+	
+	// writing styles or scripts inline
+	
+	function print_wp_inline() {
 		
 		$eol = "\r\n";
 		
-		$inline_text = ('css' == self::$type) ? '<style>'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol : '<script type="text/javascript">'.$eol;
+		$inline_text = ('css' == self::$type) ? '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol : '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol;
 		
-		$inline_text .= self::$styles;
+		$inline_text .= ('css' == self::$type) ? self::$wp_styles : self::$wp_scripts;
 		
-		$inline_text .= ('css' == self::$type) ? $eol.'</style>'.$eol : $eol.'</script>'.$eol;
+		$inline_text .= ('css' == self::$type) ? '</style>'.$eol : '</script>'.$eol;
 		
 		echo $inline_text;	
+		
+	}
+	
+	function print_admin_inline() {
+		
+		$eol = "\r\n";
+		
+		$inline_text = ('css' == self::$type) ? '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol : '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol;
+		
+		$inline_text .= ('css' == self::$type) ? self::$admin_styles : self::$admin_scripts;
+		
+		$inline_text .= ('css' == self::$type) ? '</style>'.$eol : '</script>'.$eol;
+		
+		echo $inline_text;	
+		
+	}
+	
+	function print_login_inline() {
+		
+		$eol = "\r\n";
+		
+		$inline_text = ('css' == self::$type) ? '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol : '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol;
+		
+		$inline_text .= ('css' == self::$type) ? self::$login_styles : self::$login_scripts;
+		
+		$inline_text .= ('css' == self::$type) ? '</style>'.$eol : '</script>'.$eol;
+		
+		echo $inline_text;	
+		
+	}
+	
+	static function build_widget_css($selector, $element) {
+		
+		$eol = "\r\n";
+		
+		$return = 'div.'.$selector.' '.$element.','.$eol;
+		$return .= 'li.'.$selector.' '.$element.','.$eol;
+		$return .= 'aside.'.$selector.' '.$element.' ';
+		
+		return $return;
 		
 	}
 	

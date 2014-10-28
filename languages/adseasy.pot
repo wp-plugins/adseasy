@@ -1,100 +1,83 @@
+# Copyright (C) 2014 Ads Easy
+# This file is distributed under the same license as the Ads Easy package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ads Easy\n"
-"POT-Creation-Date: 2014-03-28 12:12+0200\n"
-"PO-Revision-Date: 2014-03-28 12:13+0200\n"
-"Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
-"Language-Team: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
+"Project-Id-Version: Ads Easy 2.7\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/adseasy\n"
+"POT-Creation-Date: 2014-02-25 09:45:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: adseasy.php:121
+#: adseasy.php:135
 msgid "FAQ"
 msgstr ""
 
-#: adseasy.php:122
+#: adseasy.php:136
 msgid "Donate"
 msgstr ""
 
-#: adseasy.php:132 class-lib/A5_OptionPageClass.php:31
-#: class-lib/AE_AdminClass.php:34
+#: adseasy.php:148 adseasy.php:265 class-lib/A5_OptionPageClass.php:31
 msgid "Settings"
 msgstr ""
 
-#: adseasy.php:146 class-lib/AE_AdminClass.php:45
+#. #-#-#-#-#  plugin.pot (Ads Easy 2.7)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#: adseasy.php:162 adseasy.php:273
 msgid "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy"
 msgstr ""
 
-#: class-lib/A5_OptionPageClass.php:112
-msgid "Click to toggle"
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:45
-msgid "Plugin Support"
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:49
-msgid "Do you use Google Adsense in the widget?"
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:62
-msgid "Debug Info"
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:89
+#: adseasy.php:199
 msgid "Use the Google AdSense Tags"
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:91
+#: adseasy.php:201
 msgid "Check to use the Google AdSense Tags"
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:93
+#: adseasy.php:203
 msgid "Search Engines:"
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:93
+#: adseasy.php:203
 msgid ""
 "How long should the widget be displayed to visitors from search engines (in "
 "minutes)?"
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:95
+#: adseasy.php:205
 msgid ""
 "You can enter your own style for the widgets here. This will overwrite the "
 "styles of your theme."
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:95
+#: adseasy.php:205
 msgid ""
 "If you leave this empty, you can still style every instance of the widget "
 "individually."
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:97
-msgid "Debug:"
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:97
-msgid ""
-"If you can&#39;t reach the dynamical style sheet, you&#39;ll have to diplay "
-"the styles inline. By clicking here you can do so."
-msgstr ""
-
-#: class-lib/AE_AdminClass.php:105
+#: adseasy.php:213
 msgid "To activate the use of the tags, check the box."
 msgstr ""
 
-#: class-lib/AE_AdminClass.php:150
+#: adseasy.php:273
+msgid "Plugin Support"
+msgstr ""
+
+#: adseasy.php:277
+msgid "Do you use Google Adsense in the widget?"
+msgstr ""
+
+#: adseasy.php:298
 msgid "Please give numeric value for the minutes."
+msgstr ""
+
+#: class-lib/A5_OptionPageClass.php:112
+msgid "Click to toggle"
 msgstr ""
 
 #: class-lib/AE_WidgetClass.php:20
@@ -186,10 +169,29 @@ msgid "Just paste the code of your ad here."
 msgstr ""
 
 #: class-lib/AE_WidgetClass.php:102
-#, php-format
 msgid ""
 "Here you can finally style the widget. Simply type something like%1$s"
 "%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black "
 "line around the widget. If you leave that section empty, your theme will "
 "style the widget."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Ads Easy"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"If you don't want to have Ads in your posts and you don't need other stats "
+"than those you get from wordpress and your adservers, this is the most easy "
+"solution. Place the code you get to the widget, style the widget and define, "
+"on what pages it shows up and to what kind of visitors."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Waldemar Stoffel"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.atelier-fuenf.de"
 msgstr ""
