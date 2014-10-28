@@ -45,7 +45,7 @@ class AE_Admin extends A5_OptionPage {
 	 */
 	function add_admin_menu() {
 		
-		add_plugins_page('Ads Easy '.__('Settings', self::language_file), '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'build_options_page'));
+		add_plugins_page('Ads Easy '.__('Settings', self::language_file), '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array(&$this, 'build_options_page'));
 		
 	}
 	
@@ -56,13 +56,13 @@ class AE_Admin extends A5_OptionPage {
 	 */
 	function build_options_page() {
 		
-		parent::open_page('Ads Easy', __('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file), 'adseasy', __('Plugin Support', self::language_file));
+		self::open_page('Ads Easy', __('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file), 'adseasy', __('Plugin Support', self::language_file));
 		
 		settings_errors();
 		
 		_e('Do you use Google Adsense in the widget?', self::language_file); 
 		
-		parent::open_form('options.php');
+		self::open_form('options.php');
 		
 		settings_fields('ae_options');
 		do_settings_sections('ae_use_adsense');
@@ -70,24 +70,16 @@ class AE_Admin extends A5_OptionPage {
 		submit_button();
 		
 		if (WP_DEBUG === true) :
+		
+			self::open_tab();
 			
-			echo '<div id="poststuff">';
-			
-			parent::open_draggable(__('Debug Info', self::language_file), 'debug-info');
-			
-			echo '<pre>';
-			
-			var_dump(self::$options);
-			
-			echo '</pre>';
-			
-			parent::close_draggable();
-			
-			echo '</div>';
+			self::sortable('deep-down', self::debug_info(self::$options, __('Debug Info', self::language_file)));
+		
+			self::close_tab();
 		
 		endif;
 		
-		parent::close_page();
+		self::close_page();
 		
 	}
 	
@@ -156,7 +148,7 @@ class AE_Admin extends A5_OptionPage {
 	
 	function resize_field() {
 		
-		a5_resize_textarea(array('ae_css'));
+		a5_resize_textarea('ae_css');
 		
 	}
 		

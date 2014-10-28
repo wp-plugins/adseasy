@@ -22,7 +22,7 @@ class AE_DynamicCSS extends A5_DynamicFiles {
 		
 		if (!array_key_exists('compress', self::$options)) self::$options['compress'] = false;
 		
-		parent::A5_DynamicFiles('wp', 'css', false, self::$options['inline']);
+		parent::A5_DynamicFiles('wp', 'css', 'all', false, self::$options['inline']);
 		
 		$eol = (self::$options['compress']) ? '' : "\r\n";
 		$tab = (self::$options['compress']) ? ' ' : "\t";

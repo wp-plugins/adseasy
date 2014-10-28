@@ -45,6 +45,7 @@ class Ads_Easy_Widget extends WP_Widget {
 			'author' => false,
 			'search' => false,
 			'not_found' => false,
+			'login_page' => false,
 			'logged_in' => 1,
 			'search_engine' => 1,
 			'normal' => 1
@@ -68,6 +69,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		$author=esc_attr($instance['author']);
 		$search=esc_attr($instance['search']);
 		$not_found=esc_attr($instance['not_found']);
+		$login_page=esc_attr($instance['login_page']);
 		$logged_in=esc_attr($instance['logged_in']);
 		$search_engine=esc_attr($instance['search_engine']);
 		$normal=esc_attr($instance['normal']);
@@ -87,7 +89,8 @@ class Ads_Easy_Widget extends WP_Widget {
 			array($base_id.'taxonomy', $base_name.'[taxonomy]', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)),
 			array($base_id.'author', $base_name.'[author]', $author, __('Author pages', self::language_file)),
 			array($base_id.'search', $base_name.'[search]', $search, __('Search Results', self::language_file)),
-			array($base_id.'not_found', $base_name.'[not_found]', $not_found, __('&#34;Not Found&#34;', self::language_file))
+			array($base_id.'not_found', $base_name.'[not_found]', $not_found, __('&#34;Not Found&#34;', self::language_file)),
+			array($base_id.'login_page', $base_name.'[login_page]', $login_page, __('Login Page (only available, if having a plugin)', self::language_file))
 		);
 		
 		$checkall = array($base_id.'checkall', $base_name.'[checkall]', __('Check all', self::language_file));
@@ -124,6 +127,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		 $instance['author'] = strip_tags($new_instance['author']);
 		 $instance['search'] = strip_tags($new_instance['search']);
 		 $instance['not_found'] = strip_tags($new_instance['not_found']);
+		 $instance['login_page'] = @$new_instance['login_page'];
 		 $instance['logged_in'] = strip_tags($new_instance['logged_in']);
 		 $instance['search_engine'] = strip_tags($new_instance['search_engine']);
 		 $instance['normal'] = strip_tags($new_instance['normal']);
@@ -151,6 +155,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		if (is_author()) $ae_pagetype='author';
 		if (is_search()) $ae_pagetype='search';
 		if (is_404()) $ae_pagetype='not_found';
+		if (!isset($ae_pagetype)) $ae_pagetype = 'login_page';
 		
 		// display only, if said so in the settings of the widget
 		
