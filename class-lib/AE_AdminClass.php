@@ -30,11 +30,13 @@ class AE_Admin extends A5_OptionPage {
 	 * Make debug info collapsable
 	 *
 	 */
-	function enqueue_scripts($hook){
+	function enqueue_scripts($hook) {
 		
 		if ('plugins_page_ads-easy-settings' != $hook) return;
 		
 		wp_enqueue_script('dashboard');
+		
+		if (wp_is_mobile()) wp_enqueue_script('jquery-touch-punch');
 		
 	}
 	
