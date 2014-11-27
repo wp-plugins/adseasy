@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta
+ * Version: 1.0 beta 20141124
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -14,6 +14,8 @@
  */
 
 class A5_FormField {
+	
+	const version = '1.0 beta 20141124';
 	
 	public $formfield;
 	
@@ -659,7 +661,7 @@ function a5_range_field($field_id, $field_name, $min, $max, $value = false, $lab
 	 
 	$attributes['min'] = $min;
 	
-	$attributes['min'] = $max;
+	$attributes['max'] = $max;
 	
 	$args = array ( 'type' => 'range',
 					'field_id' => $field_id,
@@ -965,4 +967,15 @@ function a5_resize_textarea($field_id, $echo = true) {
 
 }
 
+ /**
+ *
+ * getting the framework version
+ *
+ */
+ 
+function a5_get_version() {
+	
+	return 'Framework version: '.A5_FormField::version;
+
+}
 ?>

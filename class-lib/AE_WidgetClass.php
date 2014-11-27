@@ -39,6 +39,7 @@ class Ads_Easy_Widget extends WP_Widget {
 			'category' => 1,
 			'single' => false,
 			'date' => false,
+			'archive' => false,
 			'tag' => false,
 			'attachment' => false,
 			'taxonomy' => false,
@@ -63,6 +64,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		$category=esc_attr($instance['category']);
 		$single=esc_attr($instance['single']);
 		$date=esc_attr($instance['date']);
+		$archive=esc_attr($instance['archive']);
 		$tag=esc_attr($instance['tag']);
 		$attachment=esc_attr($instance['attachment']);
 		$taxonomy=esc_attr($instance['taxonomy']);
@@ -84,6 +86,7 @@ class Ads_Easy_Widget extends WP_Widget {
 			array($base_id.'category', $base_name.'[category]', $category, __('Category pages', self::language_file)),
 			array($base_id.'single', $base_name.'[single]', $single, __('Single post pages', self::language_file)),
 			array($base_id.'date', $base_name.'[date]', $date, __('Archive pages', self::language_file)),
+			array($base_id.'archive', $base_name.'[archive]', $archive, __('Post type archives', self::language_file)),
 			array($base_id.'tag', $base_name.'[tag]', $tag, __('Tag pages', self::language_file)),
 			array($base_id.'attachment', $base_name.'[attachment]', $attachment, __('Attachments', self::language_file)),
 			array($base_id.'taxonomy', $base_name.'[taxonomy]', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)),
@@ -122,6 +125,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		 $instance['single'] = strip_tags($new_instance['single']);
 		 $instance['date'] = strip_tags($new_instance['date']); 
 		 $instance['tag'] = strip_tags($new_instance['tag']);
+		 $instance['archive'] = strip_tags($new_instance['archive']);
 		 $instance['attachment'] = strip_tags($new_instance['attachment']);
 		 $instance['taxonomy'] = strip_tags($new_instance['taxonomy']);
 		 $instance['author'] = strip_tags($new_instance['author']);
@@ -149,6 +153,7 @@ class Ads_Easy_Widget extends WP_Widget {
 		if (is_category()) $ae_pagetype='category';
 		if (is_single()) $ae_pagetype='single';
 		if (is_date()) $ae_pagetype='date';
+		if (is_archive()) $ae_pagetype='archive';
 		if (is_tag()) $ae_pagetype='tag';
 		if (is_attachment()) $ae_pagetype='attachment';
 		if (is_tax()) $ae_pagetype='taxonomy';

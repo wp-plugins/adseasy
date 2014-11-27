@@ -5,7 +5,7 @@
  * Class A5 Dynamic Files
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta
+ * Version: 1.0 beta 20141124
  *
  * Handels styles or javascript in either dynamical files or inline
  * 
@@ -18,15 +18,11 @@
 
 class A5_DynamicFiles {
 	
-	const version = '1.0 beta';
-	
 	public static $wp_styles = '', $admin_styles = '', $login_styles = '', $wp_scripts = '', $admin_scripts = '', $login_scripts = '';
 	
-	private static $type, $media, $hooks;
+	private static $type, $media, $hooks, $printed;
 	
-	function A5_DynamicFiles($place = 'wp', $type = false, $media = false, $hooks = false, $inline = false, $priority = false) {
-		
-		self::$type = ($type) ? $type : 'css';
+	function A5_DynamicFiles($place = 'wp', $type = 'css', $media = false, $hooks = false, $inline = false, $priority = false) {
 		
 		self::$media = ($media) ? $media : 'all';
 		
@@ -42,16 +38,13 @@ class A5_DynamicFiles {
 		
 		if (true === $inline) :
 		
-			add_action($place.'_head', array(&$this, 'print_'.$place.'_inline_'.self::$type), $priority);
+			add_action($place.'_head', array($this, 'print_'.$place.'_inline_'.$type), $priority);
 		
 		else :
 		
-			add_action('init', array (&$this, 'add_rewrite'));
-			add_action('template_redirect', array (&$this, 'file_template'));
-			
-			$action = ('login' == $place) ? '_head' : '_enqueue_scripts'; 
-			
-			add_action ($place.'_enqueue_scripts', array (&$this, $place.'_enqueue_scripts'), $priority);
+			add_action('init', array ($this, 'add_rewrite'));
+			add_action('template_redirect', array ($this, 'file_template'));
+			add_action ($place.'_enqueue_scripts', array ($this, $place.'_enqueue_scripts'), $priority);
 			
 		endif;
 
@@ -132,7 +125,7 @@ class A5_DynamicFiles {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=wp_css';
 			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
+		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
@@ -140,6 +133,8 @@ class A5_DynamicFiles {
 	// getting css to backend
 	
 	function admin_enqueue_scripts ($hook) {
+		
+		echo $hook;
 		
 		if (self::$hooks !== false) :
 		
@@ -149,7 +144,7 @@ class A5_DynamicFiles {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=admin_css';
 			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
+		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
@@ -159,15 +154,15 @@ class A5_DynamicFiles {
 	function login_enqueue_scripts () {
 		
 		$A5_css_file=get_bloginfo('url').'/?A5_file=login_css';
-			
-		wp_register_style('A5-framework', $A5_css_file, false, self::version, self::$media);
+		
+		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
 		
 	}
 	
 	// writing the styles to a dynamic file
 	
-	function write_wp_dss() {
+	private function write_wp_dss() {
 	
 		$eol = "\r\n";
 		
@@ -183,7 +178,7 @@ class A5_DynamicFiles {
 		
 	}
 	
-	function write_admin_dss() {
+	private function write_admin_dss() {
 		
 		$eol = "\r\n";
 		
@@ -199,7 +194,7 @@ class A5_DynamicFiles {
 		
 	}
 	
-	function write_login_dss() {
+	private function write_login_dss() {
 	
 		$eol = "\r\n";
 		
@@ -285,9 +280,13 @@ class A5_DynamicFiles {
 	
 	function print_admin_inline_css() {
 		
+		if (isset(self::$printed)) return;
+		
 		$eol = "\r\n";
 		
-		echo '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol.self::$admin_styles.'</style>'.$eol;	
+		echo '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol.self::$admin_styles.'</style>'.$eol;
+		
+		self::$printed = true;	
 		
 	}
 	

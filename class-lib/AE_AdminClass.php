@@ -17,9 +17,9 @@ class AE_Admin extends A5_OptionPage {
 	
 	function __construct() {
 	
-		add_action('admin_init', array(&$this, 'initialize_settings'));
-		add_action('admin_menu', array(&$this, 'add_admin_menu'));
-		if (defined('WP_DEBUG') && WP_DEBUG == true) add_action('admin_enqueue_scripts', array(&$this, 'enqueue_scripts'));
+		add_action('admin_init', array($this, 'initialize_settings'));
+		add_action('admin_menu', array($this, 'add_admin_menu'));
+		if (defined('WP_DEBUG') && WP_DEBUG == true) add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 		
 		self::$options = get_option('ae_options');
 		
@@ -47,7 +47,7 @@ class AE_Admin extends A5_OptionPage {
 	 */
 	function add_admin_menu() {
 		
-		add_plugins_page('Ads Easy '.__('Settings', self::language_file), '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array(&$this, 'build_options_page'));
+		add_plugins_page('Ads Easy '.__('Settings', self::language_file), '<img alt="" src="'.plugins_url('adseasy/img/a5-icon-11.png').'"> Ads Easy', 'administrator', 'ads-easy-settings', array($this, 'build_options_page'));
 		
 	}
 	
@@ -92,21 +92,21 @@ class AE_Admin extends A5_OptionPage {
 	 */
 	function initialize_settings() {
 		
-		register_setting( 'ae_options', 'ae_options', array(&$this, 'validate') );
+		register_setting( 'ae_options', 'ae_options', array($this, 'validate') );
 		
-		add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', self::language_file), array(&$this, 'ae_display_use_google'), 'ae_use_adsense');
+		add_settings_section('ads_easy_google', __('Use the Google AdSense Tags', self::language_file), array($this, 'ae_display_use_google'), 'ae_use_adsense');
 		
-		add_settings_field('use_google_tags', 'Tags:', array(&$this, 'ae_display_tags'), 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', self::language_file)));
+		add_settings_field('use_google_tags', 'Tags:', array($this, 'ae_display_tags'), 'ae_use_adsense', 'ads_easy_google', array(' '.__('Check to use the Google AdSense Tags', self::language_file)));
 		
-		add_settings_field('ae_engine_time', __('Search Engines:', self::language_file), array(&$this, 'ae_display_time'), 'ae_use_adsense', 'ads_easy_google', array(__('How long should the widget be displayed to visitors from search engines (in minutes)?', self::language_file).'<br/>'));
+		add_settings_field('ae_engine_time', __('Search Engines:', self::language_file), array($this, 'ae_display_time'), 'ae_use_adsense', 'ads_easy_google', array(__('How long should the widget be displayed to visitors from search engines (in minutes)?', self::language_file).'<br/>'));
 		
-		add_settings_field('use_own_css', 'CSS:', array(&$this, 'ae_display_css'), 'ae_use_adsense', 'ads_easy_google', array(__('You can enter your own style for the widgets here. This will overwrite the styles of your theme.', self::language_file), __('If you leave this empty, you can still style every instance of the widget individually.', self::language_file)));
+		add_settings_field('use_own_css', 'CSS:', array($this, 'ae_display_css'), 'ae_use_adsense', 'ads_easy_google', array(__('You can enter your own style for the widgets here. This will overwrite the styles of your theme.', self::language_file), __('If you leave this empty, you can still style every instance of the widget individually.', self::language_file)));
 		
-		add_settings_field('ae_compress', __('Compress Style Sheet:', self::language_file), array(&$this, 'compress_field'), 'ae_use_adsense', 'ads_easy_google', array(__('Click here to compress the style sheet.', self::language_file)));
+		add_settings_field('ae_compress', __('Compress Style Sheet:', self::language_file), array($this, 'compress_field'), 'ae_use_adsense', 'ads_easy_google', array(__('Click here to compress the style sheet.', self::language_file)));
 		
-		add_settings_field('ae_inline', __('Debug:', self::language_file), array(&$this, 'inline_field'), 'ae_use_adsense', 'ads_easy_google', array(__('If you can&#39;t reach the dynamical style sheet, you&#39;ll have to display the styles inline. By clicking here you can do so.', self::language_file)));
+		add_settings_field('ae_inline', __('Debug:', self::language_file), array($this, 'inline_field'), 'ae_use_adsense', 'ads_easy_google', array(__('If you can&#39;t reach the dynamical style sheet, you&#39;ll have to display the styles inline. By clicking here you can do so.', self::language_file)));
 		
-		add_settings_field('ae_resize', false, array(&$this, 'resize_field'), 'ae_use_adsense', 'ads_easy_google');
+		add_settings_field('ae_resize', false, array($this, 'resize_field'), 'ae_use_adsense', 'ads_easy_google');
 	
 	}
 	
