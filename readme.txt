@@ -3,8 +3,8 @@ Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA
 Tags: ads, sidebar, widget, multi widget, advertising, banner, banners, Google AdSense, AdSense, Google AdSense Tags, AdSense Tags
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 2.6.5
+Tested up to: 4.1
+Stable tag: 3.2
 
 Ads Easy is the most simple way to integrate some banners into your blog. It works with basically everything and is AdSense optimized.
 
@@ -12,7 +12,7 @@ Ads Easy is the most simple way to integrate some banners into your blog. It wor
 
 If you need to place some Advertisements on your blog, but you don't need other stats, than those from your adprovider and you don't want to have ads in your posts, this is the solution. You can define the widget style yourself or you can leave it to your theme. Show your ads on every type of page or just on the frontpage. Keep your registered users adfree when they are logged in if you want. If you use Google AdSense, you can wrap the AdSense tags automatically around your loop, header, footer and / or sidebars. In the editor, you have a button appearing, that will wrap content in the Google ignore tags. Simply select some text and press the button, the shortcode will do the rest for you.
 
-Ads Easy was tested up to WP 3.6. It should work with versions down to 2.7 but was never tested on those.
+Ads Easy was tested up to WP 4.1. It should work with versions down to 2.7 but was never tested on those.
 
 == Installation ==
 
@@ -62,6 +62,40 @@ to the widget style to get a nice shadow down right of the container. This is no
 3. The widget's settings section
 
 == Changelog ==
+
+= 3.2 =
+
+* Framework updated
+* Widget options refined
+
+= 3.1 =
+
+* Framework updated
+
+= 3.0 =
+
+* Debugging functions added
+* Framework updated
+
+= 2.9.2 =
+
+* Interference with Wordpress Page Widgets eliminated
+
+= 2.9.1 =
+
+* DSS is now compressable
+
+= 2.9 =
+
+* Framework updated
+
+= 2.8 =
+
+* Instead of styling each individual widget, you can style now the whole class
+
+= 2.7 =
+
+* Smaller streamlining done
 
 = 2.6.5 =
 
@@ -177,3 +211,36 @@ Small bugfix
 = 2.6.5 =
 
 Smaller issues fixed in framework
+
+= 2.7 =
+
+Smaller streamlining done
+
+= 2.8 =
+
+Instead of styling each individual widget, you can style now the whole class
+
+= 2.9 =
+
+Framework updated
+
+= 2.9.1 =
+
+DSS is now compressable
+
+= 2.9.2 =
+
+Interference with Wordpress Page Widgets eliminated
+
+= 3.0 =
+
+Framework updated; Debugging functions added
+
+= 3.1 =
+
+Framework updated
+
+= 3.2 =
+
+* Framework updated
+* Widget options refined

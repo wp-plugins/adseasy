@@ -31,10 +31,10 @@ class A5_AddMceButton {
 		$this->hook = $hook;
 		
 		// Modify the version when tinyMCE plugins are changed.
-		add_filter('tiny_mce_version', array (&$this, 'change_tinymce_version') );
+		add_filter('tiny_mce_version', array ($this, 'change_tinymce_version') );
 
 		// init process for button control
-		add_action('init', array (&$this, 'addbuttons') );
+		add_action('init', array ($this, 'addbuttons') );
 	}
 
 	/**
@@ -52,8 +52,8 @@ class A5_AddMceButton {
 		if ( get_user_option('rich_editing') == 'true') {
 		 
 			// add the button for wp2.5 in a new way
-			add_filter('mce_external_plugins', array (&$this, 'add_tinymce_plugin' ), 5);
-			add_filter($this->hook, array (&$this, 'register_button' ), 5);
+			add_filter('mce_external_plugins', array ($this, 'add_tinymce_plugin' ), 5);
+			add_filter($this->hook, array ($this, 'register_button' ), 5);
 		}
 	}
 	
