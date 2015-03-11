@@ -146,25 +146,27 @@ class Ads_Easy_Widget extends WP_Widget {
 	if (!empty($instance[$visitor])) :
 		
 		// get the type of page, we're actually on
-		
-		if (is_front_page()) $ae_pagetype='frontpage';
-		if (is_home()) $ae_pagetype='homepage';
-		if (is_page()) $ae_pagetype='page';
-		if (is_category()) $ae_pagetype='category';
-		if (is_single()) $ae_pagetype='single';
-		if (is_date()) $ae_pagetype='date';
-		if (is_archive()) $ae_pagetype='archive';
-		if (is_tag()) $ae_pagetype='tag';
-		if (is_attachment()) $ae_pagetype='attachment';
-		if (is_tax()) $ae_pagetype='taxonomy';
-		if (is_author()) $ae_pagetype='author';
-		if (is_search()) $ae_pagetype='search';
-		if (is_404()) $ae_pagetype='not_found';
-		if (!isset($ae_pagetype)) $ae_pagetype = 'login_page';
+	
+		if (is_front_page()) $pagetype[]='frontpage';
+		if (is_home()) $pagetype[]='homepage';
+		if (is_page()) $pagetype[]='page';
+		if (is_category()) $pagetype[]='category';
+		if (is_single()) $pagetype[]='single';
+		if (is_date()) $pagetype[]='date';
+		if (is_archive()) $pagetype[]='archive';
+		if (is_tag()) $pagetype[]='tag';
+		if (is_attachment()) $pagetype[]='attachment';
+		if (is_tax()) $pagetype[]='taxonomy';
+		if (is_author()) $pagetype[]='author';
+		if (is_search()) $pagetype[]='search';
+		if (is_404()) $pagetype[]='not_found';
+		if (!isset($pagetype)) $pagetype[]='login_page';
 		
 		// display only, if said so in the settings of the widget
 		
-		if ($instance[$ae_pagetype]) :
+		foreach ($pagetype as $page) if ($instance[$page]) $show_widget = true;
+	
+		if ($show_widget) :
 			
 			// the widget is displayed
 			
@@ -250,36 +252,42 @@ class Ads_Easy_Widget extends WP_Widget {
 			
 			if (false === $visitor) :
 			
-				$referer = $_SERVER['HTTP_REFERER'];
-	
-				$search_engines = array('/search?', 'web.info.com', 'search.', 'del.icio.us/search', 'soso.com', '/search/', '.yahoo.', 'google');
+				if (!isset($_SERVER['HTTP_REFERER'])) :
 				
-				foreach ($search_engines as $engine) :
-				
-					if (strpos($referer, $engine) !== false ) :
+					$visitor = false;
 					
-						$visitor = 'search_engine';
+				else :
+	
+					$search_engines = array('/search?', 'web.info.com', 'search.', 'del.icio.us/search', 'soso.com', '/search/', '.yahoo.', 'google');
+					
+					foreach ($search_engines as $engine) :
+					
+						if (strpos($_SERVER['HTTP_REFERER'], $engine) !== false ) :
 						
-						// setting transient for half an hour, when coming from search engine
-						
-						if (is_multisite()) :
-						
-							set_site_transient($ip_address, 'search_engine', 60 * $options['ae_time']);
+							$visitor = 'search_engine';
 							
-						else:
-						
-							set_transient($ip_address, 'search_engine', 60 * $options['ae_time']);
+							// setting transient for half an hour, when coming from search engine
 							
+							if (is_multisite()) :
+							
+								set_site_transient($ip_address, 'search_engine', 60 * $options['ae_time']);
+								
+							else:
+							
+								set_transient($ip_address, 'search_engine', 60 * $options['ae_time']);
+								
+							endif;
+							
+						else :
+						
+							$vistor = false;
+						
 						endif;
 						
-					else :
-					
-						$vistor = false;
-					
-					endif;
-					
-				endforeach;
-			
+					endforeach;
+				
+				endif;
+				
 			endif;
 			
 		endif;
