@@ -9,18 +9,16 @@
  * building the actual widget
  *
  */
-class Ads_Easy_Widget extends WP_Widget {
-	
-	const language_file = 'adseasy';
+class Ads_Easy_Widget extends A5_Widget {
 	
 	private static $options;
 	
 	function __construct() {
 			
-		$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', self::language_file) );
+		$widget_opts = array( 'description' => __('You can show ads in your sidebars and other widgetareas with this widget. Define, on what kind of pages they will show up.', 'adseasy') );
 		$control_opts = array ( 'width' => 400 );
 		
-		parent::WP_Widget(false, $name = 'Ads Easy', $widget_opts, $control_opts);
+		parent::__construct(false, $name = 'Ads Easy', $widget_opts, $control_opts);
 		
 		self::$options = get_option('ae_options');
 	
@@ -58,85 +56,67 @@ class Ads_Easy_Widget extends WP_Widget {
 		$name = esc_attr($instance['name']);
 		$adblock = $instance['adblock'];
 		$style=esc_attr($instance['style']);
-		$homepage=esc_attr($instance['homepage']);
-		$frontpage=esc_attr($instance['frontpage']);
-		$page=esc_attr($instance['page']);
-		$category=esc_attr($instance['category']);
-		$single=esc_attr($instance['single']);
-		$date=esc_attr($instance['date']);
-		$archive=esc_attr($instance['archive']);
-		$tag=esc_attr($instance['tag']);
-		$attachment=esc_attr($instance['attachment']);
-		$taxonomy=esc_attr($instance['taxonomy']);
-		$author=esc_attr($instance['author']);
-		$search=esc_attr($instance['search']);
-		$not_found=esc_attr($instance['not_found']);
-		$login_page=esc_attr($instance['login_page']);
-		$logged_in=esc_attr($instance['logged_in']);
-		$search_engine=esc_attr($instance['search_engine']);
-		$normal=esc_attr($instance['normal']);
+		$homepage = $instance['homepage'];
+		$frontpage = $instance['frontpage'];
+		$page = $instance['page'];
+		$category = $instance['category'];
+		$single = $instance['single'];
+		$date = $instance['date'];
+		$archive = $instance['archive'];
+		$tag = $instance['tag'];
+		$attachment = $instance['attachment'];
+		$taxonomy = $instance['taxonomy'];
+		$author = $instance['author'];
+		$search = $instance['search'];
+		$not_found = $instance['not_found'];
+		$login_page = $instance['login_page'];
+		$logged_in = $instance['logged_in'];
+		$search_engine = $instance['search_engine'];
+		$normal = $instance['normal'];
 		
 		$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
 		$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
 		
-		$options = array (
-			array($base_id.'homepage', $base_name.'[homepage]', $homepage, __('Homepage', self::language_file)),
-			array($base_id.'frontpage', $base_name.'[frontpage]', $frontpage, __('Frontpage (e.g. a static page as homepage)', self::language_file)),
-			array($base_id.'page', $base_name.'[page]', $page, __('&#34;Page&#34; pages', self::language_file)),
-			array($base_id.'category', $base_name.'[category]', $category, __('Category pages', self::language_file)),
-			array($base_id.'single', $base_name.'[single]', $single, __('Single post pages', self::language_file)),
-			array($base_id.'date', $base_name.'[date]', $date, __('Archive pages', self::language_file)),
-			array($base_id.'archive', $base_name.'[archive]', $archive, __('Post type archives', self::language_file)),
-			array($base_id.'tag', $base_name.'[tag]', $tag, __('Tag pages', self::language_file)),
-			array($base_id.'attachment', $base_name.'[attachment]', $attachment, __('Attachments', self::language_file)),
-			array($base_id.'taxonomy', $base_name.'[taxonomy]', $taxonomy, __('Custom Taxonomy pages (only available, if having a plugin)', self::language_file)),
-			array($base_id.'author', $base_name.'[author]', $author, __('Author pages', self::language_file)),
-			array($base_id.'search', $base_name.'[search]', $search, __('Search Results', self::language_file)),
-			array($base_id.'not_found', $base_name.'[not_found]', $not_found, __('&#34;Not Found&#34;', self::language_file)),
-			array($base_id.'login_page', $base_name.'[login_page]', $login_page, __('Login Page (only available, if having a plugin)', self::language_file))
-		);
-		
-		$checkall = array($base_id.'checkall', $base_name.'[checkall]', __('Check all', self::language_file));
-		
-		a5_text_field($base_id.'name', $base_name.'[name]', $name, __('Title (will be displayed in blog):', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Adname (internal widgettitle):', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_checkgroup(false, false, $options, __('Check, where you want to show the widget. By default, it is showing on the homepage and the category pages:', self::language_file), $checkall);
-		a5_checkbox($base_id.'logged_in', $base_name.'[logged_in]', $logged_in, __('Show to logged in users.', self::language_file), array('space' => true));
-		a5_checkbox($base_id.'search_engine', $base_name.'[search_engine]', $search_engine, __('Show to visitors, who come from search engines.', self::language_file), array('space' => true));
-		a5_checkbox($base_id.'normal', $base_name.'[normal]', $normal, __('Show to other visitors.', self::language_file), array('space' => true));
-		a5_textarea($base_id.'adblock', $base_name.'[adblock]', $adblock, __('Just paste the code of your ad here.', self::language_file), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
-		if (empty(self::$options['ae_css'])) a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', self::language_file), '<br />', '<strong>', '</strong>'), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
+		a5_text_field($base_id.'name', $base_name.'[name]', $name, __('Title (will be displayed in blog):', 'adseasy'), array('space' => true, 'class' => 'widefat'));
+		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Adname (internal widgettitle):', 'adseasy'), array('space' => true, 'class' => 'widefat'));
+		parent::page_checkgroup($instance);
+		a5_checkbox($base_id.'logged_in', $base_name.'[logged_in]', $logged_in, __('Show to logged in users.', 'adseasy'), array('space' => true));
+		a5_checkbox($base_id.'search_engine', $base_name.'[search_engine]', $search_engine, __('Show to visitors, who come from search engines.', 'adseasy'), array('space' => true));
+		a5_checkbox($base_id.'normal', $base_name.'[normal]', $normal, __('Show to other visitors.', 'adseasy'), array('space' => true));
+		a5_textarea($base_id.'adblock', $base_name.'[adblock]', $adblock, __('Just paste the code of your ad here.', 'adseasy'), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
+		if (empty(self::$options['ae_css'])) a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%1$s%2$sborder: 1px solid;%1$sborder-color: #000000;%3$s%1$sto get just a black line around the widget. If you leave that section empty, your theme will style the widget.', 'adseasy'), '<br />', '<strong>', '</strong>'), array('space' => true, 'style' => 'height: 60px;', 'class' => 'widefat'));
 		a5_resize_textarea(array($base_id.'adblock', $base_id.'style'), true);
 		
 	}
 	
 	function update($new_instance, $old_instance) {
 		 
-		 $instance = $old_instance;
-		 
-		 $instance['title'] = strip_tags($new_instance['title']);
-		 $instance['name'] = strip_tags($new_instance['name']);
-		 $instance['adblock'] = trim($new_instance['adblock']);
-		 $instance['style'] = strip_tags($new_instance['style']);
-		 $instance['homepage'] = strip_tags($new_instance['homepage']);
-		 $instance['frontpage'] = strip_tags($new_instance['frontpage']);
-		 $instance['page'] = strip_tags($new_instance['page']);
-		 $instance['category'] = strip_tags($new_instance['category']);
-		 $instance['single'] = strip_tags($new_instance['single']);
-		 $instance['date'] = strip_tags($new_instance['date']); 
-		 $instance['tag'] = strip_tags($new_instance['tag']);
-		 $instance['archive'] = strip_tags($new_instance['archive']);
-		 $instance['attachment'] = strip_tags($new_instance['attachment']);
-		 $instance['taxonomy'] = strip_tags($new_instance['taxonomy']);
-		 $instance['author'] = strip_tags($new_instance['author']);
-		 $instance['search'] = strip_tags($new_instance['search']);
-		 $instance['not_found'] = strip_tags($new_instance['not_found']);
-		 $instance['login_page'] = @$new_instance['login_page'];
-		 $instance['logged_in'] = strip_tags($new_instance['logged_in']);
-		 $instance['search_engine'] = strip_tags($new_instance['search_engine']);
-		 $instance['normal'] = strip_tags($new_instance['normal']);
-		 
-		 return $instance;
+		$instance = $old_instance;
+		
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['name'] = strip_tags($new_instance['name']);
+		$instance['adblock'] = trim($new_instance['adblock']);
+		$instance['style'] = strip_tags($new_instance['style']);
+		$instance['homepage'] = @$new_instance['homepage'];
+		$instance['frontpage'] = @$new_instance['frontpage'];
+		$instance['page'] = @$new_instance['page'];
+		$instance['category'] = @$new_instance['category'];
+		$instance['single'] = @$new_instance['single'];
+		$instance['date'] = @$new_instance['date'];
+		$instance['archive'] = @$new_instance['archive'];
+		$instance['tag'] = @$new_instance['tag'];
+		$instance['attachment'] = @$new_instance['attachment'];
+		$instance['taxonomy'] = @$new_instance['taxonomy'];
+		$instance['author'] = @$new_instance['author'];
+		$instance['search'] = @$new_instance['search'];
+		$instance['not_found'] = @$new_instance['not_found'];
+		$instance['login_page'] = @$new_instance['login_page'];
+		$instance['logged_in'] = @$new_instance['logged_in'];
+		$instance['search_engine'] = @$new_instance['search_engine'];
+		$instance['normal'] = @$new_instance['normal'];
+		
+		return $instance;
+		
 	}
 	 
 	function widget($args, $instance) {
@@ -145,26 +125,7 @@ class Ads_Easy_Widget extends WP_Widget {
 	
 	if (!empty($instance[$visitor])) :
 		
-		// get the type of page, we're actually on
-	
-		if (is_front_page()) $pagetype[]='frontpage';
-		if (is_home()) $pagetype[]='homepage';
-		if (is_page()) $pagetype[]='page';
-		if (is_category()) $pagetype[]='category';
-		if (is_single()) $pagetype[]='single';
-		if (is_date()) $pagetype[]='date';
-		if (is_archive()) $pagetype[]='archive';
-		if (is_tag()) $pagetype[]='tag';
-		if (is_attachment()) $pagetype[]='attachment';
-		if (is_tax()) $pagetype[]='taxonomy';
-		if (is_author()) $pagetype[]='author';
-		if (is_search()) $pagetype[]='search';
-		if (is_404()) $pagetype[]='not_found';
-		if (!isset($pagetype)) $pagetype[]='login_page';
-		
-		// display only, if said so in the settings of the widget
-		
-		foreach ($pagetype as $page) if ($instance[$page]) $show_widget = true;
+		$show_widget = parent::check_output($instance);
 	
 		if ($show_widget) :
 			
@@ -174,21 +135,15 @@ class Ads_Easy_Widget extends WP_Widget {
 			
 			$title = apply_filters('widget_title', $instance['name']);	
 			
-			if (empty($instance['style'])) :
-				
-				$ae_before_widget=$before_widget;
-				$ae_after_widget=$after_widget;
+			if (!empty($instance['style'])) :
 			
-			else :
+				$style=str_replace(array("\r\n", "\n", "\r"), ' ', $instance['style']);
 				
-				$ae_style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
-				
-				$ae_before_widget='<div id="'.$widget_id.'" style="'.$ae_style.'" class="widget_ads_easy_widget">';
-				$ae_after_widget='</div>';
-				
+				$before_widget = str_replace('>', 'style="'.$style.'">', $before_widget);
+			
 			endif;
 			
-			echo $ae_before_widget;
+			echo $before_widget;
 			
 			if ( $title ) echo $before_title . $title . $after_title;
 		 
@@ -196,7 +151,7 @@ class Ads_Easy_Widget extends WP_Widget {
 				
 			echo $instance['adblock'];
 			
-			echo $ae_after_widget;
+			echo $after_widget;
 		
 		endif;
 	

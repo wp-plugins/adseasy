@@ -3,11 +3,12 @@
 Plugin Name: Ads Easy
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy
 Description: If you don't want to have Ads in your posts and you don't need other stats than those you get from wordpress and your adservers, this is the most easy solution. Place the code you get to the widget, style the widget and define, on what pages it shows up and to what kind of visitors. 
-Version: 3.2.1
+Version: 3.2.2
 Author: Waldemar Stoffel
 Author URI: http://www.atelier-fuenf.de
 License: GPL3
-Text Domain: adseasy 
+Text Domain: adseasy
+Domain Path: /languages 
 */
 
 /*  Copyright 2011 - 2015 Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
@@ -38,6 +39,7 @@ define( 'AE_BASE', plugin_basename(__FILE__) );
 if (!class_exists('A5_FormField')) require_once AE_PATH.'class-lib/A5_FormFieldClass.php';
 if (!class_exists('A5_OptionPage')) require_once AE_PATH.'class-lib/A5_OptionPageClass.php';
 if (!class_exists('A5_DynamicFiles')) require_once AE_PATH.'class-lib/A5_DynamicFileClass.php';
+if (!class_exists('A5_Widget')) require_once AE_PATH.'class-lib/A5_WidgetClass.php';
 
 #loading plugin specific classes
 if (!class_exists('AE_Admin')) require_once AE_PATH.'class-lib/AE_AdminClass.php';
@@ -45,8 +47,6 @@ if (!class_exists('AE_DynamicCSS')) require_once AE_PATH.'class-lib/AE_DynamicCS
 if (!class_exists('Ads_Easy_Widget')) require_once AE_PATH.'class-lib/AE_WidgetClass.php';
 
 class AdsEasy {
-	
-	const language_file = 'adseasy';
 	
 	private static $options;
 	
@@ -56,7 +56,7 @@ class AdsEasy {
 		
 		// import laguage files
 	
-		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
+		load_plugin_textdomain('adseasy', false , basename(dirname(__FILE__)).'/languages');
 		
 		register_activation_hook(__FILE__, array($this, '_install'));
 		register_deactivation_hook(__FILE__, array($this, '_uninstall'));
@@ -120,8 +120,8 @@ class AdsEasy {
 		
 		if ($file == AE_BASE) :
 			
-			$links[] = '<a href="http://wordpress.org/extend/plugins/adseasy/faq/" target="_blank">'.__('FAQ', self::language_file).'</a>';
-			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA" target="_blank">'.__('Donate', self::language_file).'</a>';
+			$links[] = '<a href="http://wordpress.org/extend/plugins/adseasy/faq/" target="_blank">'.__('FAQ', 'adseasy').'</a>';
+			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRMSV3NXQDXSA" target="_blank">'.__('Donate', 'adseasy').'</a>';
 		
 		endif;
 		
@@ -131,7 +131,7 @@ class AdsEasy {
 	
 	function register_action_links( $links, $file ) {
 		
-		if ($file == AE_BASE) array_unshift($links, '<a href="'.admin_url( 'plugins.php?page=ads-easy-settings' ).'">'.__('Settings', self::language_file).'</a>');
+		if ($file == AE_BASE) array_unshift($links, '<a href="'.admin_url( 'plugins.php?page=ads-easy-settings' ).'">'.__('Settings', 'adseasy').'</a>');
 	
 		return $links;
 	
@@ -145,19 +145,19 @@ class AdsEasy {
 	
 	function write_header_info() {
 		
-		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', self::language_file)." -->\r\n";
+		echo "<!-- Google AdSense Tags powered by Waldemar Stoffel's AdEasy ".__('http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/ads-easy', 'adseasy')." -->\n";
 		
 	}
 	
 	function google_start() {
 		
-		echo "<!-- google_ad_section_start -->\r\n";
+		echo "<!-- google_ad_section_start -->\n";
 		
 	}
 	
 	function google_end() {
 		
-		echo "<!-- google_ad_section_end -->\r\n";
+		echo "<!-- google_ad_section_end -->\n";
 		
 	}
 	
@@ -168,7 +168,7 @@ class AdsEasy {
 	 */
 	function set_ignore_tags($atts, $content = null){
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		return $eol.'<!-- google_ad_section_end -->'.$eol.'<!-- google_ad_section_start(weight=ignore) -->'.$eol.do_shortcode($content).$eol.'<!-- google_ad_section_end -->'.$eol.'<!-- google_ad_section_start -->'.$eol;
 	}
