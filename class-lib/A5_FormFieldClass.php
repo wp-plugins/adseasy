@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150131
+ * Version: 1.0 beta 20150629
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -15,7 +15,7 @@
 
 class A5_FormField {
 	
-	const version = '1.0 beta 20150131 AE';
+	const version = '1.0 beta 20150629 AE';
 	
 	public $formfield;
 	
@@ -23,7 +23,7 @@ class A5_FormField {
 		
 		extract($args);
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		$tab = "\t";
 		
 		$id = (isset($field_id) && !is_array($field_id)) ? ' id="'.$field_id.'"' : '';
@@ -821,7 +821,7 @@ function a5_week_field($field_id, $field_name, $value = false, $label = false, $
  
 function a5_checkgroup($fieldset_id, $fieldset_name, $item_options, $legend = false, $checkall = false, $attributes = array(), $echo = true) {
 	
-	$eol = "\r\n";
+	$eol = "\n";
 	
 	$boxes = '';
 	
@@ -895,7 +895,7 @@ function a5_checkgroup($fieldset_id, $fieldset_name, $item_options, $legend = fa
  
 function a5_radiogroup($fieldset_id, $fieldset_name, $item_options, $legend = false, $attributes = array(), $echo = true) {
 	
-	$eol = "\r\n";
+	$eol = "\n";
 	
 	$boxes = '';
 	

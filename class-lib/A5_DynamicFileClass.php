@@ -5,7 +5,7 @@
  * Class A5 Dynamic Files
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150131
+ * Version: 1.0 beta 20150629
  *
  * Handels styles or javascript in either dynamical files or inline
  * 
@@ -22,7 +22,7 @@ class A5_DynamicFiles {
 	
 	private static $type, $media, $hooks = array(), $printed = array();
 	
-	function A5_DynamicFiles($place = 'wp', $type = 'css', $media = false, $hooks = false, $inline = false, $priority = false) {
+	function __construct($place = 'wp', $type = 'css', $media = false, $hooks = false, $inline = false, $priority = false) {
 		
 		self::$media = ($media) ? $media : 'all';
 		
@@ -191,7 +191,7 @@ class A5_DynamicFiles {
 	
 	private function write_wp_dss() {
 	
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/css');
 		
@@ -207,7 +207,7 @@ class A5_DynamicFiles {
 	
 	private function write_admin_dss() {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/css');
 		
@@ -223,7 +223,7 @@ class A5_DynamicFiles {
 	
 	private function write_login_dss() {
 	
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/css');
 		
@@ -241,7 +241,7 @@ class A5_DynamicFiles {
 	
 	function write_wp_djs() {
 	
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/javascript');
 		
@@ -257,7 +257,7 @@ class A5_DynamicFiles {
 	
 	function write_admin_djs() {
 	
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/javascript');
 		
@@ -273,7 +273,7 @@ class A5_DynamicFiles {
 	
 	function write_login_djs() {
 	
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		header('Content-type: text/javascript');
 		
@@ -291,7 +291,7 @@ class A5_DynamicFiles {
 	
 	function print_wp_inline_css() {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol.self::$wp_styles.'</style>'.$eol;	
 		
@@ -299,7 +299,7 @@ class A5_DynamicFiles {
 	
 	function print_wp_inline_js() {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol.self::$wp_scripts.'</script>'.$eol;	
 		
@@ -309,9 +309,11 @@ class A5_DynamicFiles {
 		
 		$screen = get_current_screen();
 		
+		if (!isset($screen)) return;
+		
 		if (in_array('admin_css', self::$printed) || !in_array($screen->id, self::$hooks)) return;
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol.self::$admin_styles.'</style>'.$eol;
 		
@@ -323,9 +325,11 @@ class A5_DynamicFiles {
 		
 		$screen = get_current_screen();
 		
+		if (!isset($screen)) return;
+		
 		if (in_array('admin_js', self::$printed) || !in_array($screen->id, self::$hooks)) return;
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol.self::$admin_scripts.'</script>'.$eol;
 		
@@ -335,7 +339,7 @@ class A5_DynamicFiles {
 	
 	function print_login_inline_css() {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<style type="text/css" media="'.self::$media.'">'.$eol.'/* CSS Styles created by the A5 Plugin Framework */'.$eol.self::$login_styles.'</style>'.$eol;	
 		
@@ -343,7 +347,7 @@ class A5_DynamicFiles {
 	
 	function print_login_inline_js() {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		echo '<script type="text/javascript">'.$eol.'// JavaScript createtd by the A5 Plugin Framework'.$eol.self::$login_scripts.'</script>'.$eol;	
 		
@@ -351,11 +355,12 @@ class A5_DynamicFiles {
 	
 	static function build_widget_css($selector, $element) {
 		
-		$eol = "\r\n";
+		$eol = "\n";
 		
 		$return = 'div.'.$selector.' '.$element.','.$eol;
 		$return .= 'li.'.$selector.' '.$element.','.$eol;
-		$return .= 'aside.'.$selector.' '.$element.' ';
+		$return .= 'aside.'.$selector.' '.$element.','.$eol;
+		$return .= 'section.'.$selector.' '.$element.' ';
 		
 		return $return;
 		
